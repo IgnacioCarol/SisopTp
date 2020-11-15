@@ -144,6 +144,29 @@ then #Caso en el que no existe. Realizamos la instalación.
 	    
 	    clear
 	done
+	
+	#Creamos los directorios.
+	echo "Creando directorio de ejecutables."
+	mkdir $(dirname `pwd`)/$ejecutables_default
+	echo "Creando directorio de tablas del sistema."
+	mkdir $(dirname `pwd`)/$tablas_default
+	echo "Creando directorio de novedades."
+	mkdir $(dirname `pwd`)/$novedades_default
+	mkdir $(dirname `pwd`)/$novedades_default/ok
+	echo "Creando directorio de archivos rechazados."
+	mkdir $(dirname `pwd`)/$rechazados_default
+	echo "Creando directorio de lotes procesados."
+	mkdir $(dirname `pwd`)/$lotes_default
+	echo "Creando directorio de resultados."
+	mkdir $(dirname `pwd`)/$resultados_default
+	mkdir $(dirname `pwd`)/$resultados_default/comisiones
+	
+	#Copiamos las tablas maestras y los archivos ejecutables.
+	cp ../original/tablasmaestras/comercios.txt $(dirname `pwd`)/$tablas_default/comercios.txt
+	cp ../original/tablasmaestras/tarjetashomologadas.txt $(dirname `pwd`)/$tablas_default/tarjetashomologadas.txt
+	
+	echo "Estado de la instalación:                     COMPLETADA"
+	
 else #Caso en el que existe. Vemos si se debe reparar el sistema o no.
 	echo "Ver si hay que reparar."
 fi
