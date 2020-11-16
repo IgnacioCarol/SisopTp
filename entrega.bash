@@ -31,26 +31,27 @@ sendToRejectedFolder() {
 }
 
 checkNameFiles() {
-  filesWithBadNames=$(ls ${INPUT_PATH} -I'ok' | grep -v '^C[0-9]\{8\}_Lote[0-9]\{4\}$')
-  for file in ${filesWithBadNames}; do
-    sendToRejectedFolder "${file}" "Incorrect naming"
+  while read nameFile; do
+    if ! echo "${nameFile}" | grep -q '^C[0-9]\{8\}_Lote[0-9]\{4\}$'; then
+      sendToRejectedFolder "${nameFile}" "Incorrect naming"
+    else
+      echo "$nameFile"
+    fi
   done
 }
 
 checkForCorrectParsedFiles() {
-  possibleCorrectFiles=$(ls ${INPUT_PATH} -I'ok')
-  for file in ${possibleCorrectFiles}; do
+  while read file; do
     if [ ! -s "${INPUT_PATH}$file" ]; then
       sendToRejectedFolder "${file}" "is empty"
-      continue
-    fi
-    if [[ ! (-r ${INPUT_PATH}$file && -f ${INPUT_PATH}$file) ]]; then
+    elif [[ ! (-r ${INPUT_PATH}$file && -f ${INPUT_PATH}$file) ]]; then
       sendToRejectedFolder "${file}" "is not readable or regular"
       continue
-    fi
-    if ! file ${INPUT_PATH}"$file" | grep -q 'text'; then
+    elif ! file ${INPUT_PATH}"$file" | grep -q 'text'; then
       sendToRejectedFolder "${file}" "file is not a text one"
       continue
+    else
+      echo "${file}"
     fi
   done
 }
@@ -58,7 +59,10 @@ checkForCorrectParsedFiles() {
 moveToValidFiles() {
   while read file; do
     mv "${INPUT_PATH}$file" ${INPUT_ACCEPTED_PATH}
-    echo "File $file move to accepted" >> ${PATH_TO_LOGGER}
+    echo "File $file move to accepted" >>${PATH_TO_LOGGER}
+  done
+}
+
   done
 }
 
@@ -70,9 +74,6 @@ fi
 while true; do
   #checkPath
   echo "Voy por el ciclo ${ACTUAL_CYCLE}" >>${PATH_TO_LOGGER}
-  checkNameFiles
-  checkForCorrectParsedFiles
-  ls ${INPUT_PATH} -I'ok' | moveToValidFiles
   ACTUAL_CYCLE=$((ACTUAL_CYCLE + 1))
   sleep $TIME_TO_SLEEP
 done
