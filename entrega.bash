@@ -21,7 +21,39 @@ fi
 
 #Ending check
 
+sendToRejectedFolder() {
+  message=$2
+  if [ -z "${message}" ]; then
+    message='unknown reason'
+  fi
+  mv "${INPUT_PATH}$1" ${REJECTED_PATH}
+  echo "File $1 move to rejected because ${message}" >> ${PATH_TO_LOGGER}
+}
 
+checkNameFiles() {
+  filesWithBadNames=$(ls ${INPUT_PATH} -I'ok' | grep -v '^C[0-9]\{8\}_Lote[0-9]\{4\}$')
+  for file in ${filesWithBadNames}; do
+    sendToRejectedFolder "${file}" "Incorrect naming"
+  done
+}
+
+checkForCorrectParsedFiles() {
+  possibleCorrectFiles=$(ls ${INPUT_PATH} -I'ok')
+  for file in ${possibleCorrectFiles}; do
+    if [ ! -s "${INPUT_PATH}$file" ]; then
+      sendToRejectedFolder "${file}" "is empty"
+      continue
+    fi
+    if [[ ! (-r ${INPUT_PATH}$file && -f ${INPUT_PATH}$file) ]]; then
+      sendToRejectedFolder "${file}" "is not readable or regular"
+      continue
+    fi
+    if ! file ${INPUT_PATH}"$file" | grep -q 'text'; then
+      sendToRejectedFolder "${file}" "file is not a text one"
+      continue
+    fi
+  done
+}
 
 checkPath() {
 	if [ ! -r "${FILE_PATH}" ] ; then
