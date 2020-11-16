@@ -63,6 +63,13 @@ moveToValidFiles() {
   done
 }
 
+checkForValidMerchantCode() {
+  while read line; do
+    if ! echo "$line" | sed 's/.*C\([0-9]\{8\}\)_Lote.\{4\}$/\1/' | grep -q -f- $MERCHANT_REGISTER; then
+      sendToRejectedFolder "${line}" "Code is not at merchants possible code"
+    else
+      echo "$line"
+    fi
   done
 }
 
@@ -74,6 +81,7 @@ fi
 while true; do
   #checkPath
   echo "Voy por el ciclo ${ACTUAL_CYCLE}" >>${PATH_TO_LOGGER}
+  ls ${INPUT_PATH} -I'ok' | checkNameFiles | checkForCorrectParsedFiles | checkForValidMerchantCode | moveToValidFiles
   ACTUAL_CYCLE=$((ACTUAL_CYCLE + 1))
   sleep $TIME_TO_SLEEP
 done
