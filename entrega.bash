@@ -8,7 +8,7 @@ INPUT_ACCEPTED_PATH="${INPUT_PATH}ok/"
 #$GRUPO/rechazos
 REJECTED_PATH="./rechazos"
 #$DIRMAE/comercios.txt
-MERCHANT_REGISTER="${INPUT_PATH}/merchantForTest"
+MERCHANT_REGISTER="./merchantForTest"
 OUTPUT_PLACE="./loggerFiles/"
 ACTUAL_CYCLE=1
 TIME_TO_SLEEP=5
