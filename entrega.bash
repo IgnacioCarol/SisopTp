@@ -55,25 +55,24 @@ checkForCorrectParsedFiles() {
   done
 }
 
-checkPath() {
-	if [ ! -r "${FILE_PATH}" ] ; then
-		echo "error: File ${FILE_PATH} does not exist or you do not have access to it." >&2; exit 1
-	fi
-	return 0;
+moveToValidFiles() {
+  while read file; do
+    mv "${INPUT_PATH}$file" ${INPUT_ACCEPTED_PATH}
+    echo "File $file move to accepted" >> ${PATH_TO_LOGGER}
+  done
 }
 
 if [ ! -d "$OUTPUT_PLACE" ]; then
-  mkdir "$OUTPUT_PLACE";
+  mkdir "$OUTPUT_PLACE"
   echo "Folder created at ${OUTPUT_PLACE}"
 fi
 
 while true; do
-	#checkPath
-	echo "Voy por el ciclo ${ACTUAL_CYCLE}" >> ${FILE_TO_LOGGER};
-	# shellcheck disable=SC2016
-	#pathToSearch=$(grep '${NAME_OF_FILE}' "${FILE_PATH}"| awk -F "= " '{ print $2}')
-	# shellcheck disable=SC2010
-	#ls "$pathToSearch" | grep '\.png$' | cat >> "$OUTPUT_PLACE/$ACTUAL_CYCLE";
-	ACTUAL_CYCLE=$(( ACTUAL_CYCLE + 1 ))
-	sleep $TIME_TO_SLEEP;
+  #checkPath
+  echo "Voy por el ciclo ${ACTUAL_CYCLE}" >>${PATH_TO_LOGGER}
+  checkNameFiles
+  checkForCorrectParsedFiles
+  ls ${INPUT_PATH} -I'ok' | moveToValidFiles
+  ACTUAL_CYCLE=$((ACTUAL_CYCLE + 1))
+  sleep $TIME_TO_SLEEP
 done
