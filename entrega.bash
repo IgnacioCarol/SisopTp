@@ -28,7 +28,7 @@ sendToRejectedFolder() {
     message='unknown reason'
   fi
   mv "${INPUT_PATH}$1" ${REJECTED_PATH}
-  echo "File $1 move to rejected because ${message}" >> ${PATH_TO_LOGGER}
+  echo "File $1 move to rejected because ${message}" >>${PATH_TO_LOGGER}
 }
 
 checkNameFiles() {
@@ -74,19 +74,19 @@ checkForValidMerchantCode() {
   done
 }
 
-checkTFH(){
-  fileHead=`head -1 $1`
-  merchantCode=`echo $fileHead | cut -f3 -d","`
-  fileMerchantCode=`echo ${file} | sed 's/.*C\([0-9]\{8\}\)_.*/\1/'`
-  numberTRX=`echo $fileHead | cut -f7 -d","`
+checkTFH() {
+  fileHead=$(head -1 $1)
+  merchantCode=$(echo $fileHead | cut -f3 -d",")
+  fileMerchantCode=$(echo ${file} | sed 's/.*C\([0-9]\{8\}\)_.*/\1/')
+  numberTRX=$(echo $fileHead | cut -f7 -d",")
 
   if [ "${fileHead%%,*}" != "TFH" ]; then
     errorMessage="The header record (TFH) dosen't exist"
 
-  elif [ "$merchantCode" != "$fileMerchantCode" ];then
+  elif [ "$merchantCode" != "$fileMerchantCode" ]; then
     errorMessage="The merchant codes aren't equal"
 
-  elif [ "$numberTRX" -eq "00000" ] || [ $numberTRX -ne $((`wc -l $1 | cut -f1 -d" "` - 1)) ]; then
+  elif [ "$numberTRX" -eq "00000" ] || [ $numberTRX -ne $(($(wc -l $1 | cut -f1 -d" ") - 1)) ]; then
     errorMessage="Invalid amount of transaction registers"
 
   else
@@ -97,8 +97,8 @@ checkTFH(){
   return 1
 }
 
-checkTFD(){
-  VALID_PROCESSING_CODE1=000000  #Maybe if we use it in other part we can define as global
+checkTFD() {
+  VALID_PROCESSING_CODE1=000000 #Maybe if we use it in other part we can define as global
   VALID_PROCESSING_CODE2=111111
   filename=$1
   creditCards="" #variable to store the valid credit cards
@@ -108,20 +108,20 @@ checkTFD(){
   counter=0
   while read line; do
     counter=$(($counter + 1))
-    if [ $counter -eq 1 ];then continue; fi
+    if [ $counter -eq 1 ]; then continue; fi
 
     #Checking variables from the file one by one
-    processingCode=`echo $line | cut -f12 -d","`
+    processingCode=$(echo $line | cut -f12 -d",")
 
     if [ "${line%%,*}" != "TFD" ]; then
       errorMessage="Invalid record type, must be TFD"
       break
 
-    elif [ `echo $line | cut -f2 -d","` -ne $counter ]; then
+    elif [ "$(echo "$line" | cut -f2 -d",")" -ne $counter ]; then
       errorMessage="The record number and the register number aren't equal"
       break
 
-    elif [ "$processingCode" != "$VALID_PROCESSING_CODE1" ] && [ "$processingCode" != "$VALID_PROCESSING_CODE2" ];then
+    elif [ "$processingCode" != "$VALID_PROCESSING_CODE1" ] && [ "$processingCode" != "$VALID_PROCESSING_CODE2" ]; then
       errorMessage="Invalid processing code"
       break
     fi
@@ -129,17 +129,17 @@ checkTFD(){
     if [ $auxFlag -eq 0 ]; then
       while read line; do
         creditCards+="${line%%,*} "
-      done < $APPROVED_CARDS_PATH
-      auxFlag=$[$auxFlag + 1]
+      done < "$APPROVED_CARDS_PATH"
+      auxFlag=$(($auxFlag + 1))
     fi
 
-    idPayment=`echo $line | cut -f5 -d","`
+    idPayment=$(echo $line | cut -f5 -d",")
     if [[ ! "$creditCards" == *"$idPayment"* ]]; then
-      errorMessage="The payment method dosen't exist"
+      errorMessage="The payment method doesn't exist"
       break
     fi
 
-  done < $filename
+  done < "$filename"
 
   if [ ${#errorMessage} -ne 0 ]; then
     sendToRejectedFolder "${filename}" "${errorMessage}"
@@ -149,7 +149,7 @@ checkTFD(){
   return 0
 }
 
-checkAceptedFiles(){
+checkAceptedFiles() {
   for file in "$INPUT_ACCEPTED_PATH"*; do
     checkTFH $file && checkTFD $file
   done
@@ -157,8 +157,6 @@ checkAceptedFiles(){
   echo "All acepted files were checked"
   return 0
 }
-
-
 
 if [ ! -d "$OUTPUT_PLACE" ]; then
   mkdir "$OUTPUT_PLACE"
