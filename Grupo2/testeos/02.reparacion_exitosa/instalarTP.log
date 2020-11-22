@@ -1,0 +1,85 @@
+22/11/2020 00:00:48-INF-Bienvenido al programa de instalación/reparación del sistema.-instalarTP.sh-nahuel
+22/11/2020 00:00:48-INF-Comenzando configuración para la instalación del sistema.-instalarTP.sh-nahuel
+22/11/2020 00:00:50-INF-Ingrese un nombre para el directorio de ejecutables (en caso de dejar en blanco, se utilizará el nombre por default "bin"):-instalarTP.sh-nahuel
+22/11/2020 00:00:50-INF--instalarTP.sh-nahuel
+22/11/2020 00:00:50-INF-Ingrese un nombre para el directorio de tablas del sistema (en caso de dejar en blanco, se utilizará el nombre por default "master"):-instalarTP.sh-nahuel
+22/11/2020 00:00:50-INF--instalarTP.sh-nahuel
+22/11/2020 00:00:50-INF-Ingrese un nombre para el directorio de novedades (en caso de dejar en blanco, se utilizará el nombre por default "input"):-instalarTP.sh-nahuel
+22/11/2020 00:00:50-INF--instalarTP.sh-nahuel
+22/11/2020 00:00:51-INF-Ingrese un nombre para el directorio de archivos rechazados (en caso de dejar en blanco, se utilizará el nombre por default "rechazos"):-instalarTP.sh-nahuel
+22/11/2020 00:00:51-INF--instalarTP.sh-nahuel
+22/11/2020 00:00:51-INF-Ingrese un nombre para el directorio de lotes procesados (en caso de dejar en blanco, se utilizará el nombre por default "lotes"):-instalarTP.sh-nahuel
+22/11/2020 00:00:51-INF--instalarTP.sh-nahuel
+22/11/2020 00:00:52-INF-Ingrese un nombre para el directorio de resultados (en caso de dejar en blanco, se utilizará el nombre por default "output"):-instalarTP.sh-nahuel
+22/11/2020 00:00:52-INF--instalarTP.sh-nahuel
+22/11/2020 00:00:52-INF-Tipo de proceso:                          INSTALACIÓN-instalarTP.sh-nahuel
+22/11/2020 00:00:52-INF-Directorio padre:                         /home/nahuel/Documents/Grupo2-instalarTP.sh-nahuel
+22/11/2020 00:00:52-INF-Ubicación script de instalación:          /home/nahuel/Documents/Grupo2/so7508/instalarTP.sh-instalarTP.sh-nahuel
+22/11/2020 00:00:52-INF-Log de la instalación:                    /home/nahuel/Documents/Grupo2/so7508/instalarTP.log-instalarTP.sh-nahuel
+22/11/2020 00:00:52-INF-Archivo de configuración:                 /home/nahuel/Documents/Grupo2/so7508/instalarTP.conf-instalarTP.sh-nahuel
+22/11/2020 00:00:52-INF-Log de inicialización:                    /home/nahuel/Documents/Grupo2/so7508/iniciarambiente.log-instalarTP.sh-nahuel
+22/11/2020 00:00:52-INF-Log del proceso principal:                /home/nahuel/Documents/Grupo2/so7508/pprincipal.log-instalarTP.sh-nahuel
+22/11/2020 00:00:52-INF-Directorio de ejecutables:                /home/nahuel/Documents/Grupo2/bin-instalarTP.sh-nahuel
+22/11/2020 00:00:52-INF-Directorio de tablas maestras:            /home/nahuel/Documents/Grupo2/master-instalarTP.sh-nahuel
+22/11/2020 00:00:52-INF-Directorio de novedades:                  /home/nahuel/Documents/Grupo2/input-instalarTP.sh-nahuel
+22/11/2020 00:00:52-INF-Directorio de novedades aceptadas:        /home/nahuel/Documents/Grupo2/input/ok-instalarTP.sh-nahuel
+22/11/2020 00:00:52-INF-Directorio de rechazados:                 /home/nahuel/Documents/Grupo2/rechazos-instalarTP.sh-nahuel
+22/11/2020 00:00:52-INF-Directorio de lotes procesados:           /home/nahuel/Documents/Grupo2/lotes-instalarTP.sh-nahuel
+22/11/2020 00:00:52-INF-Directorio de transacciones:              /home/nahuel/Documents/Grupo2/output-instalarTP.sh-nahuel
+22/11/2020 00:00:52-INF-Directorio de comisiones:                 /home/nahuel/Documents/Grupo2/output/comisiones-instalarTP.sh-nahuel
+22/11/2020 00:00:52-INF-Estado de la instalación:                 LISTA-instalarTP.sh-nahuel
+22/11/2020 00:00:55-INF-¿Confirma la instalación? (Y/N)-instalarTP.sh-nahuel
+22/11/2020 00:00:55-INF-Y-instalarTP.sh-nahuel
+22/11/2020 00:00:55-INF-Creando directorio de ejecutables.-instalarTP.sh-nahuel
+22/11/2020 00:00:55-INF-Creando directorio de tablas del sistema.-instalarTP.sh-nahuel
+22/11/2020 00:00:55-INF-Creando directorio de novedades.-instalarTP.sh-nahuel
+22/11/2020 00:00:55-INF-Creando directorio de archivos rechazados.-instalarTP.sh-nahuel
+22/11/2020 00:00:55-INF-Creando directorio de lotes procesados.-instalarTP.sh-nahuel
+22/11/2020 00:00:55-INF-Creando directorio de resultados.-instalarTP.sh-nahuel
+22/11/2020 00:00:55-INF-Estado de la instalación:                     COMPLETADA-instalarTP.sh-nahuel
+22/11/2020 00:01:42-INF-Bienvenido al programa de instalación/reparación del sistema.-instalarTP.sh-nahuel
+22/11/2020 00:01:42-INF-Tipo de proceso:                          REPARACIÓN-instalarTP.sh-nahuel
+22/11/2020 00:01:42-INF-Directorio padre:                         /home/nahuel/Documents/Grupo2-instalarTP.sh-nahuel
+22/11/2020 00:01:42-INF-Ubicación script de instalación:          /home/nahuel/Documents/Grupo2/so7508/instalarTP.sh-instalarTP.sh-nahuel
+22/11/2020 00:01:42-INF-Log de la instalación:                    /home/nahuel/Documents/Grupo2/so7508/instalarTP.log-instalarTP.sh-nahuel
+22/11/2020 00:01:42-INF-Archivo de configuración:                 /home/nahuel/Documents/Grupo2/so7508/instalarTP.conf-instalarTP.sh-nahuel
+22/11/2020 00:01:42-INF-Log de inicialización:                    /home/nahuel/Documents/Grupo2/so7508/iniciarambiente.log-instalarTP.sh-nahuel
+22/11/2020 00:01:42-INF-Log del proceso principal:                /home/nahuel/Documents/Grupo2/so7508/pprincipal.log-instalarTP.sh-nahuel
+22/11/2020 00:01:42-INF-Directorio de ejecutables:                /home/nahuel/Documents/Grupo2/bin-instalarTP.sh-nahuel
+22/11/2020 00:01:42-INF-Directorio de tablas maestras:            /home/nahuel/Documents/Grupo2/master-instalarTP.sh-nahuel
+22/11/2020 00:01:42-INF-Directorio de novedades:                  /home/nahuel/Documents/Grupo2/input-instalarTP.sh-nahuel
+22/11/2020 00:01:42-INF-Directorio de novedades aceptadas:        /home/nahuel/Documents/Grupo2/input/ok-instalarTP.sh-nahuel
+22/11/2020 00:01:42-INF-Directorio de rechazados:                 /home/nahuel/Documents/Grupo2/rechazos-instalarTP.sh-nahuel
+22/11/2020 00:01:42-INF-Directorio de lotes procesados:           /home/nahuel/Documents/Grupo2/lotes-instalarTP.sh-nahuel
+22/11/2020 00:01:42-INF-Directorio de transacciones:              /home/nahuel/Documents/Grupo2/output-instalarTP.sh-nahuel
+22/11/2020 00:01:42-INF-Directorio de comisiones:                 /home/nahuel/Documents/Grupo2/output/comisiones-instalarTP.sh-nahuel
+22/11/2020 00:01:42-INF-Estado de la reparación:                  LISTA-instalarTP.sh-nahuel
+22/11/2020 00:01:46-INF-¿Confirma la instalación? (Y/N)-instalarTP.sh-nahuel
+22/11/2020 00:01:46-INF-N-instalarTP.sh-nahuel
+22/11/2020 00:01:46-INF-Cancelando proceso de reparación.-instalarTP.sh-nahuel
+22/11/2020 00:01:48-INF-Bienvenido al programa de instalación/reparación del sistema.-instalarTP.sh-nahuel
+22/11/2020 00:01:48-INF-Tipo de proceso:                          REPARACIÓN-instalarTP.sh-nahuel
+22/11/2020 00:01:48-INF-Directorio padre:                         /home/nahuel/Documents/Grupo2-instalarTP.sh-nahuel
+22/11/2020 00:01:48-INF-Ubicación script de instalación:          /home/nahuel/Documents/Grupo2/so7508/instalarTP.sh-instalarTP.sh-nahuel
+22/11/2020 00:01:48-INF-Log de la instalación:                    /home/nahuel/Documents/Grupo2/so7508/instalarTP.log-instalarTP.sh-nahuel
+22/11/2020 00:01:48-INF-Archivo de configuración:                 /home/nahuel/Documents/Grupo2/so7508/instalarTP.conf-instalarTP.sh-nahuel
+22/11/2020 00:01:48-INF-Log de inicialización:                    /home/nahuel/Documents/Grupo2/so7508/iniciarambiente.log-instalarTP.sh-nahuel
+22/11/2020 00:01:48-INF-Log del proceso principal:                /home/nahuel/Documents/Grupo2/so7508/pprincipal.log-instalarTP.sh-nahuel
+22/11/2020 00:01:48-INF-Directorio de ejecutables:                /home/nahuel/Documents/Grupo2/bin-instalarTP.sh-nahuel
+22/11/2020 00:01:48-INF-Directorio de tablas maestras:            /home/nahuel/Documents/Grupo2/master-instalarTP.sh-nahuel
+22/11/2020 00:01:48-INF-Directorio de novedades:                  /home/nahuel/Documents/Grupo2/input-instalarTP.sh-nahuel
+22/11/2020 00:01:48-INF-Directorio de novedades aceptadas:        /home/nahuel/Documents/Grupo2/input/ok-instalarTP.sh-nahuel
+22/11/2020 00:01:48-INF-Directorio de rechazados:                 /home/nahuel/Documents/Grupo2/rechazos-instalarTP.sh-nahuel
+22/11/2020 00:01:48-INF-Directorio de lotes procesados:           /home/nahuel/Documents/Grupo2/lotes-instalarTP.sh-nahuel
+22/11/2020 00:01:48-INF-Directorio de transacciones:              /home/nahuel/Documents/Grupo2/output-instalarTP.sh-nahuel
+22/11/2020 00:01:48-INF-Directorio de comisiones:                 /home/nahuel/Documents/Grupo2/output/comisiones-instalarTP.sh-nahuel
+22/11/2020 00:01:48-INF-Estado de la reparación:                  LISTA-instalarTP.sh-nahuel
+22/11/2020 00:01:52-INF-¿Confirma la instalación? (Y/N)-instalarTP.sh-nahuel
+22/11/2020 00:01:52-INF-y-instalarTP.sh-nahuel
+22/11/2020 00:01:52-INF-Comenzando reparación del sistema.-instalarTP.sh-nahuel
+22/11/2020 00:01:52-WAR-No se encontró el directorio de ejecutables /home/nahuel/Documents/Grupo2/bin. Reparando directorio.-instalarTP.sh-nahuel
+22/11/2020 00:01:52-WAR-No se encontró el directorio de tablas del sistema /home/nahuel/Documents/Grupo2/master. Reparando directorio.-instalarTP.sh-nahuel
+22/11/2020 00:01:52-WAR-No se encontró el directorio de novedades /home/nahuel/Documents/Grupo2/input. Reparando directorio.-instalarTP.sh-nahuel
+22/11/2020 00:01:52-INF-Estado de la reparación:                     COMPLETADA-instalarTP.sh-nahuel
+22/11/2020 00:02:00-INF-Bienvenido al programa de instalación/reparación del sistema.-instalarTP.sh-nahuel
+22/11/2020 00:02:00-INF-El sistema se encuentra correctamente instalado y no necesita reparación alguna.-instalarTP.sh-nahuel
