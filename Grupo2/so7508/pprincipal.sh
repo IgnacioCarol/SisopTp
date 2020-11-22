@@ -26,6 +26,9 @@ fi
 
 #Ending check
 writeInLogger() {
+  if [ -z "$1" ]; then
+    return 0
+  fi
   type=$2
   if [ -z "${type}" ]; then
     type='INF'
