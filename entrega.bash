@@ -14,9 +14,12 @@ OUTPUT_PLACE="./loggerFiles/"
 ACTUAL_CYCLE=1
 TIME_TO_SLEEP=5
 PROCESSED_FILES="./processFiles"
+OUTPUT_COMMISSIONS_PATH="./comisiones/"
 
 export INPUT_ACCEPTED_PATH
-
+export APPROVED_CARDS_PATH
+export OUTPUT_COMMISSIONS_PATH
+export MERCHANT_REGISTER
 #this place to check for installation
 if [ ! -d "${INPUT_PATH}" ]; then
   echo "error: Folder ${FILE_PATH} does not exist or you do not have access to it." >&2
