@@ -1,14 +1,13 @@
 #!/bin/bash
 fileToUse=$1
-inputPathAccepted="./inputTest/ok/"
 pathToMerchantRegister="./merchantForTest"
 paymentsPath="./payment.txt"
 comissionsPath="./comisiones/"
 NAME_FILE=''
 CHARGE_LINE=0
 setFileName() {
-  NAME_FILE=$(echo $inputPathAccepted"$1}" | sed 's/.*C\([0-9]\{8\}\)_Lote.*/\1/' | grep -f- "$pathToMerchantRegister" | sed 's/^[0-9]\{8\},\([0-9]\{8\}\),.*/\1/')
-  NAME_FILE=$NAME_FILE$(grep '^TFH' $inputPathAccepted"$1" | cut -d',' -f5 | sed 's/\(.\{4\}\)\(.\{2\}\).*/-\1-\2/')".txt"
+  NAME_FILE=$(echo $INPUT_ACCEPTED_PATH"$1}" | sed 's/.*C\([0-9]\{8\}\)_Lote.*/\1/' | grep -f- "$pathToMerchantRegister" | sed 's/^[0-9]\{8\},\([0-9]\{8\}\),.*/\1/')
+  NAME_FILE=$NAME_FILE$(grep '^TFH' $INPUT_ACCEPTED_PATH"$1" | cut -d',' -f5 | sed 's/\(.\{4\}\)\(.\{2\}\).*/-\1-\2/')".txt"
 }
 
 setCharge() {
@@ -26,7 +25,7 @@ writeCharge() {
   while read charge; do
     values=($charge)
     chargeToWrite=$(printf "%06d" "${values[1]}")','$(printf "%012d" "${values[0]}")','$(printf "%-25s" "${values[2]}")
-    awk -F, -v LINE=$numberLine 'NR==LINE {print $2","$3","$4","$5",TEXT,"$9","$10","$11","$12","$13}' $inputPathAccepted"$file" |
+    awk -F, -v LINE=$numberLine 'NR==LINE {print $2","$3","$4","$5",TEXT,"$9","$10","$11","$12","$13}' $INPUT_ACCEPTED_PATH"$file" |
     sed "s/\(.*\),TEXT,/$file,\1,$chargeToWrite,/" >> $comissionsPath"$NAME_FILE"
     numberLine=$((numberLine + 1))
   done
@@ -35,7 +34,7 @@ writeCharge() {
 mainProgress() {
   file=$1
   setFileName "$file"
-  awk -F, 'NR!=1' $inputPathAccepted"$file" | setCharge | writeCharge
+  awk -F, 'NR!=1' $INPUT_ACCEPTED_PATH"$file" | setCharge | writeCharge
   echo "$NAME_FILE"
 }
 

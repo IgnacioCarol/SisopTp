@@ -1,9 +1,8 @@
 #!/bin/bash
 
 FILE=$1
-OUTPUT_PATH="$DIROUT"
-INPUT_ACCEPTED_PATH="${INPUT_PATH}ok/"
-APPROVED_CARDS_FILE="$DIRMAE/tarjetashomologadas.txt"
+OUTPUT_PATH="./comisiones/"
+APPROVED_CARDS_FILE="./payment.txt"
 
 getSettlementFileName() {
   #$1 = TFD  $2 TFH
@@ -14,9 +13,9 @@ getSettlementFileName() {
 }
 
 output1() {
-  file=$1
+  file=$INPUT_ACCEPTED_PATH$1
   filename=${file##*/}
-  tfh=$(head -1 $file)
+  tfh=$(head -1 "$file")
   registersNotComp=($(awk -F, 'NR!=1' $file | sort -t, -k3n | sed 's/^\(.\{3\},[0-9]\{8\}\),\(.*\)/\2,\1/' | tr ',' ' ' | rev | uniq -u -f13 | rev | tr ' ' ',' | sed 's/\(.*\),\(TFD,.*\)$/\2,\1/'))
   for tfd in "${registersNotComp[@]}"; do
     settlementFileName=""

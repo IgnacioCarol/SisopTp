@@ -5,7 +5,7 @@ PATH_TO_LOGGER="./loggerFiles/logger.txt"
 #$GRUPO/input
 INPUT_PATH="./inputTest/"
 INPUT_ACCEPTED_PATH="${INPUT_PATH}ok/"
-APPROVED_CARDS_PATH="$DIRMAE/tarjetashomologadas.txt"
+APPROVED_CARDS_PATH="./payment.txt"
 #$GRUPO/rechazos
 REJECTED_PATH="./rechazos"
 #$DIRMAE/comercios.txt
@@ -13,6 +13,9 @@ MERCHANT_REGISTER="./merchantForTest"
 OUTPUT_PLACE="./loggerFiles/"
 ACTUAL_CYCLE=1
 TIME_TO_SLEEP=5
+PROCESSED_FILES="./processFiles"
+
+export INPUT_ACCEPTED_PATH
 
 #this place to check for installation
 if [ ! -d "${INPUT_PATH}" ]; then
@@ -21,14 +24,16 @@ if [ ! -d "${INPUT_PATH}" ]; then
 fi
 
 #Ending check
-
+writeInLogger() {
+  echo "$1" >>${PATH_TO_LOGGER}
+}
 sendToRejectedFolder() {
   message=$2
   if [ -z "${message}" ]; then
     message='unknown reason'
   fi
   mv "${INPUT_PATH}$1" ${REJECTED_PATH}
-  echo "File $1 move to rejected because ${message}" >>${PATH_TO_LOGGER}
+  writeInLogger "File $1 move to rejected because ${message}"
 }
 
 checkNameFiles() {
@@ -75,9 +80,9 @@ checkForValidMerchantCode() {
 }
 
 checkTFH() {
-  fileHead=$(head -1 $1)
-  merchantCode=$(echo $fileHead | cut -f3 -d",")
-  fileMerchantCode=$(echo ${file} | sed 's/.*C\([0-9]\{8\}\)_.*/\1/')
+  fileHead=$(head -1 "$1")
+  merchantCode=$(echo "$fileHead" | cut -f3 -d",")
+  fileMerchantCode=$(echo "${file}" | sed 's/.*C\([0-9]\{8\}\)_.*/\1/')
   numberTRX=$(echo $fileHead | cut -f7 -d",")
 
   if [ "${fileHead%%,*}" != "TFH" ]; then
@@ -142,20 +147,18 @@ checkTFD() {
   done < "$filename"
 
   if [ ${#errorMessage} -ne 0 ]; then
-    sendToRejectedFolder "${filename}" "${errorMessage}"
+    sendToRejectedFolder "$INPUT_INPUT_ACCEPTED_PATH${filename}" "${errorMessage}"
     return 1
   fi
 
   return 0
 }
 
-checkAceptedFiles() {
-  for file in "$INPUT_ACCEPTED_PATH"*; do
-    checkTFH $file && checkTFD $file
+checkAcceptedFiles() {
+  while read fileName; do
+    file="$INPUT_ACCEPTED_PATH$fileName"
+    checkTFH "$file" && checkTFD "$file"
   done
-
-  echo "All acepted files were checked"
-  return 0
 }
 
 if [ ! -d "$OUTPUT_PLACE" ]; then
@@ -163,11 +166,22 @@ if [ ! -d "$OUTPUT_PLACE" ]; then
   echo "Folder created at ${OUTPUT_PLACE}"
 fi
 
+processFiles() {
+  while read file; do
+    writeInLogger "INPUT"
+    writeInLogger "$file"
+    writeInLogger "OUTPUT"
+    writeInLogger "$(./salida1.bash "$file")"
+    writeInLogger "$(./salida2.bash "$file")"
+    mv "${INPUT_ACCEPTED_PATH}$file" $PROCESSED_FILES
+  done
+}
+chmod a+x ./salida1.bash && chmod a+x ./salida2.bash
 while true; do
-  #checkPath
   echo "Voy por el ciclo ${ACTUAL_CYCLE}" >>${PATH_TO_LOGGER}
   ls ${INPUT_PATH} -I'ok' | checkNameFiles | checkForCorrectParsedFiles | checkForValidMerchantCode | moveToValidFiles
-  checkAceptedFiles
+  ls $INPUT_ACCEPTED_PATH | checkAcceptedFiles
+  ls $INPUT_ACCEPTED_PATH | processFiles
   ACTUAL_CYCLE=$((ACTUAL_CYCLE + 1))
   sleep $TIME_TO_SLEEP
 done
