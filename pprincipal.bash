@@ -1,4 +1,7 @@
 #!/bin/bash
+
+
+
 #Todo Make this file a .sh and fix the problems associated with that. Also fix paths with bugs, force an error in checkAccepted
 #$GRUPO/so7508/pprincipal.log
 PATH_TO_LOGGER="./loggerFiles/logger.txt"
