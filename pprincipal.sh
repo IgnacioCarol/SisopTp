@@ -1,6 +1,4 @@
-#!/bin/bash
-
-
+#!/bin/sh
 
 #Todo Make this file a .sh and fix the problems associated with that. Also fix paths with bugs, force an error in checkAccepted
 #$GRUPO/so7508/pprincipal.log
@@ -38,7 +36,10 @@ sendToRejectedFolder() {
   if [ -z "${message}" ]; then
     message='unknown reason'
   fi
-  mv "${INPUT_PATH}$1" ${REJECTED_PATH}
+  if echo "$1" | grep -vq '/'; then
+    inputPath=$INPUT_PATH
+  fi
+  mv "${inputPath}$1" ${REJECTED_PATH}
   writeInLogger "File $1 move to rejected because ${message}"
 }
 
@@ -56,7 +57,7 @@ checkForCorrectParsedFiles() {
   while read file; do
     if [ ! -s "${INPUT_PATH}$file" ]; then
       sendToRejectedFolder "${file}" "is empty"
-    elif [[ ! (-r ${INPUT_PATH}$file && -f ${INPUT_PATH}$file) ]]; then
+    elif ! [ -r ${INPUT_PATH}$file ] && [ -f ${INPUT_PATH}$file ]; then
       sendToRejectedFolder "${file}" "is not readable or regular"
       continue
     elif ! file ${INPUT_PATH}"$file" | grep -q 'text'; then
@@ -71,7 +72,7 @@ checkForCorrectParsedFiles() {
 moveToValidFiles() {
   while read file; do
     mv "${INPUT_PATH}$file" ${INPUT_ACCEPTED_PATH}
-    echo "File $file move to accepted" >>${PATH_TO_LOGGER}
+    writeInLogger "File $file move to accepted"
   done
 }
 
@@ -112,13 +113,11 @@ checkTFD() {
   VALID_PROCESSING_CODE1=000000 #Maybe if we use it in other part we can define as global
   VALID_PROCESSING_CODE2=111111
   filename=$1
-  creditCards="" #variable to store the valid credit cards
   errorMessage=""
 
-  auxFlag=0 #To search once the valid id_payment_methods
   counter=0
   while read line; do
-    counter=$(($counter + 1))
+    counter=$((counter + 1))
     if [ $counter -eq 1 ]; then continue; fi
 
     #Checking variables from the file one by one
@@ -136,21 +135,12 @@ checkTFD() {
       errorMessage="Invalid processing code"
       break
     fi
-
-    if [ $auxFlag -eq 0 ]; then
-      while read line; do
-        creditCards+="${line%%,*} "
-      done < "$APPROVED_CARDS_PATH"
-      auxFlag=$(($auxFlag + 1))
-    fi
-
-    idPayment=$(echo $line | cut -f5 -d",")
-    if [[ ! "$creditCards" == *"$idPayment"* ]]; then
+    if ! echo "$line" | awk -F, '{print "^"$5","}' | grep -q -f- ${APPROVED_CARDS_PATH}; then
       errorMessage="The payment method doesn't exist"
       break
     fi
 
-  done < "$filename"
+  done <"$filename"
 
   if [ ${#errorMessage} -ne 0 ]; then
     sendToRejectedFolder "${filename}" "${errorMessage}"
