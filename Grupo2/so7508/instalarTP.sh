@@ -28,9 +28,15 @@ then #Caso en el que no existe. Realizamos la instalación.
 	    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Ingrese un nombre para el directorio de ejecutables (en caso de dejar en blanco, se utilizará el nombre por default \"$ejecutables_default\"):-instalarTP.sh-`users`" >> ./instalarTP.log
 	    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-$ejecutables_temp-instalarTP.sh-`users`" >> ./instalarTP.log
 	    
-	    while grep -Fxq "$ejecutables_temp" $reservados ; do
-	        echo "El nombre \"$ejecutables_temp\" no está permitido debido a que el directorio ya existe."
-	        echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-El nombre \"$ejecutables_temp\" no está permitido debido a que el directorio ya existe.-instalarTP.sh-`users`" >> ./instalarTP.log
+	    while grep -Fxq "$ejecutables_temp" $reservados || [[ $ejecutables_temp == *"."* ]] || [[ $ejecutables_temp == *"/"* ]] ; do
+	        if grep -Fxq "$ejecutables_temp" $reservados; then
+	            echo "El nombre \"$ejecutables_temp\" no está permitido debido a que el directorio ya existe."
+	            echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-El nombre \"$ejecutables_temp\" no está permitido debido a que el directorio ya existe.-instalarTP.sh-`users`" >> ./instalarTP.log
+	        else
+	            echo "No está permitido el uso de los caracteres "/" o "." para el nombre de los directorios."
+	            echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-No está permitido el uso de los caracteres "/" o "." para el nombre de los directorios.-instalarTP.sh-`users`" >> ./instalarTP.log
+	        fi
+	        
 	        read -p "Ingrese un nombre para el directorio de ejecutables (en caso de dejar en blanco, se utilizará el nombre por default \"$ejecutables_default\"): `echo $'\n> '`" ejecutables_temp
 	        echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Ingrese un nombre para el directorio de ejecutables (en caso de dejar en blanco, se utilizará el nombre por default \"$ejecutables_default\"):-instalarTP.sh-`users`" >> ./instalarTP.log
 	        echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-$ejecutables_temp-instalarTP.sh-`users`" >> ./instalarTP.log
@@ -48,14 +54,20 @@ then #Caso en el que no existe. Realizamos la instalación.
 	    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Ingrese un nombre para el directorio de tablas del sistema (en caso de dejar en blanco, se utilizará el nombre por default \"$tablas_default\"):-instalarTP.sh-`users`" >> ./instalarTP.log
 	    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-$tablas_temp-instalarTP.sh-`users`" >> ./instalarTP.log
 	    
-	    while grep -Fxq "$tablas_temp" $reservados || grep -Fxq "$tablas_temp" $ingresados ; do
+	    while grep -Fxq "$tablas_temp" $reservados || grep -Fxq "$tablas_temp" $ingresados || [[ $tablas_temp == *"."* ]] || [[ $tablas_temp == *"/"* ]] ; do
 	        if grep -Fxq "$tablas_temp" $reservados
 	        then
 	            echo "El nombre \"$tablas_temp\" no está permitido debido a que el directorio ya existe."
 	            echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-El nombre \"$tablas_temp\" no está permitido debido a que el directorio ya existe.-instalarTP.sh-`users`" >> ./instalarTP.log
 	        else
-	            echo "EL nombre \"$tablas_temp\" ya fue seleccionado para otro directorio."
-	            echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-EL nombre \"$tablas_temp\" ya fue seleccionado para otro directorio.-instalarTP.sh-`users`" >> ./instalarTP.log
+	            if grep -Fxq "$tablas_temp" $ingresados
+	            then
+	                echo "EL nombre \"$tablas_temp\" ya fue seleccionado para otro directorio."
+	                echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-EL nombre \"$tablas_temp\" ya fue seleccionado para otro directorio.-instalarTP.sh-`users`" >> ./instalarTP.log
+	            else
+	                echo "No está permitido el uso de los caracteres "/" o "." para el nombre de los directorios."
+	                echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-No está permitido el uso de los caracteres "/" o "." para el nombre de los directorios.-instalarTP.sh-`users`" >> ./instalarTP.log
+	            fi
 	        fi
 		    read -p "Ingrese un nombre para el directorio de tablas del sistema (en caso de dejar en blanco, se utilizará el nombre por default \"$tablas_default\"): `echo $'\n> '`" tablas_temp
 		    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Ingrese un nombre para el directorio de tablas del sistema (en caso de dejar en blanco, se utilizará el nombre por default \"$tablas_default\"):-instalarTP.sh-`users`" >> ./instalarTP.log
@@ -74,14 +86,20 @@ then #Caso en el que no existe. Realizamos la instalación.
 	    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Ingrese un nombre para el directorio de novedades (en caso de dejar en blanco, se utilizará el nombre por default \"$novedades_default\"):-instalarTP.sh-`users`" >> ./instalarTP.log
 	    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-$novedades_temp-instalarTP.sh-`users`" >> ./instalarTP.log
 	    
-	    while  grep -Fxq "$novedades_temp" $reservados || grep -Fxq "$novedades_temp" $ingresados ; do
+	    while grep -Fxq "$novedades_temp" $reservados || grep -Fxq "$novedades_temp" $ingresados || [[ $novedades_temp == *"."* ]] || [[ $novedades_temp == *"/"* ]] ; do
 	        if grep -Fxq "$novedades_temp" $reservados
 	        then
 	            echo "El nombre \"$novedades_temp\" no está permitido debido a que el directorio ya existe."
 	            echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-El nombre \"$novedades_temp\" no está permitido debido a que el directorio ya existe.-instalarTP.sh-`users`" >> ./instalarTP.log
 	        else
-	            echo "EL nombre \"$novedades_temp\" ya fue seleccionado para otro directorio."
-	            echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-EL nombre \"$novedades_temp\" ya fue seleccionado para otro directorio.-instalarTP.sh-`users`" >> ./instalarTP.log
+	            if grep -Fxq "$novedades_temp" $ingresados
+	            then
+	                echo "EL nombre \"$novedades_temp\" ya fue seleccionado para otro directorio."
+	                echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-EL nombre \"$novedades_temp\" ya fue seleccionado para otro directorio.-instalarTP.sh-`users`" >> ./instalarTP.log
+	            else
+	                echo "No está permitido el uso de los caracteres "/" o "." para el nombre de los directorios."
+	                echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-No está permitido el uso de los caracteres "/" o "." para el nombre de los directorios.-instalarTP.sh-`users`" >> ./instalarTP.log
+	            fi
 	        fi
 		    read -p "Ingrese un nombre para el directorio de novedades (en caso de dejar en blanco, se utilizará el nombre por default \"$novedades_default\"): `echo $'\n> '`" novedades_temp
 		    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Ingrese un nombre para el directorio de novedades (en caso de dejar en blanco, se utilizará el nombre por default \"$novedades_default\"):-instalarTP.sh-`users`" >> ./instalarTP.log
@@ -100,14 +118,20 @@ then #Caso en el que no existe. Realizamos la instalación.
 	    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Ingrese un nombre para el directorio de archivos rechazados (en caso de dejar en blanco, se utilizará el nombre por default \"$rechazados_default\"):-instalarTP.sh-`users`" >> ./instalarTP.log
 	    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-$rechazados_temp-instalarTP.sh-`users`" >> ./instalarTP.log
 	    
-	    while  grep -Fxq "$rechazados_temp" $reservados || grep -Fxq "$rechazados_temp" $ingresados ; do
+	    while grep -Fxq "$rechazados_temp" $reservados || grep -Fxq "$rechazados_temp" $ingresados || [[ $rechazados_temp == *"."* ]] || [[ $rechazados_temp == *"/"* ]] ; do
 	        if grep -Fxq "$rechazados_temp" $reservados
 	        then
 	            echo "El nombre \"$rechazados_temp\" no está permitido debido a que el directorio ya existe."
 	            echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-El nombre \"$rechazados_temp\" no está permitido debido a que el directorio ya existe.-instalarTP.sh-`users`" >> ./instalarTP.log
 	        else
-	            echo "EL nombre \"$rechazados_temp\" ya fue seleccionado para otro directorio."
-	            echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-EL nombre \"$rechazados_temp\" ya fue seleccionado para otro directorio.-instalarTP.sh-`users`" >> ./instalarTP.log
+	            if grep -Fxq "$rechazados_temp" $ingresados
+	            then
+	                echo "EL nombre \"$rechazados_temp\" ya fue seleccionado para otro directorio."
+	                echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-EL nombre \"$rechazados_temp\" ya fue seleccionado para otro directorio.-instalarTP.sh-`users`" >> ./instalarTP.log
+	            else
+	                echo "No está permitido el uso de los caracteres "/" o "." para el nombre de los directorios."
+	                echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-No está permitido el uso de los caracteres "/" o "." para el nombre de los directorios.-instalarTP.sh-`users`" >> ./instalarTP.log
+	            fi
 	        fi
 		    read -p "Ingrese un nombre para el directorio de archivos rechazados (en caso de dejar en blanco, se utilizará el nombre por default \"$rechazados_default\"): `echo $'\n> '`" rechazados_temp
 		    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Ingrese un nombre para el directorio de archivos rechazados (en caso de dejar en blanco, se utilizará el nombre por default \"$rechazados_default\"):-instalarTP.sh-`users`" >> ./instalarTP.log
@@ -126,14 +150,20 @@ then #Caso en el que no existe. Realizamos la instalación.
 	    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Ingrese un nombre para el directorio de lotes procesados (en caso de dejar en blanco, se utilizará el nombre por default \"$lotes_default\"):-instalarTP.sh-`users`" >> ./instalarTP.log
 	    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-$lotes_temp-instalarTP.sh-`users`" >> ./instalarTP.log
 	    
-	    while  grep -Fxq "$lotes_temp" $reservados || grep -Fxq "$lotes_temp" $ingresados ; do
+	    while grep -Fxq "$lotes_temp" $reservados || grep -Fxq "$lotes_temp" $ingresados || [[ $lotes_temp == *"."* ]] || [[ $lotes_temp == *"/"* ]] ; do
 	        if grep -Fxq "$lotes_temp" $reservados
 	        then
 	            echo "El nombre \"$lotes_temp\" no está permitido debido a que el directorio ya existe."
 	            echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-El nombre \"$lotes_temp\" no está permitido debido a que el directorio ya existe.-instalarTP.sh-`users`" >> ./instalarTP.log
 	        else
-	            echo "EL nombre \"$lotes_temp\" ya fue seleccionado para otro directorio."
-	            echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-EL nombre \"$lotes_temp\" ya fue seleccionado para otro directorio.-instalarTP.sh-`users`" >> ./instalarTP.log
+	            if grep -Fxq "$lotes_temp" $ingresados
+	            then
+	                echo "EL nombre \"$lotes_temp\" ya fue seleccionado para otro directorio."
+	                echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-EL nombre \"$lotes_temp\" ya fue seleccionado para otro directorio.-instalarTP.sh-`users`" >> ./instalarTP.log
+	            else
+	                echo "No está permitido el uso de los caracteres "/" o "." para el nombre de los directorios."
+	                echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-No está permitido el uso de los caracteres "/" o "." para el nombre de los directorios.-instalarTP.sh-`users`" >> ./instalarTP.log
+	            fi
 	        fi
 		    read -p "Ingrese un nombre para el directorio de lotes procesados (en caso de dejar en blanco, se utilizará el nombre por default \"$lotes_default\"): `echo $'\n> '`" lotes_temp
 		    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Ingrese un nombre para el directorio de lotes procesados (en caso de dejar en blanco, se utilizará el nombre por default \"$lotes_default\"):-instalarTP.sh-`users`" >> ./instalarTP.log
@@ -151,14 +181,21 @@ then #Caso en el que no existe. Realizamos la instalación.
 	    read -p "Ingrese un nombre para el directorio de resultados (en caso de dejar en blanco, se utilizará el nombre por default \"$resultados_default\"): `echo $'\n> '`" resultados_temp
 	    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Ingrese un nombre para el directorio de resultados (en caso de dejar en blanco, se utilizará el nombre por default \"$resultados_default\"):-instalarTP.sh-`users`" >> ./instalarTP.log
 	    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-$resultados_temp-instalarTP.sh-`users`" >> ./instalarTP.log
-	    while  grep -Fxq "$resultados_temp" $reservados || grep -Fxq "$resultados_temp" $ingresados ; do
+	    
+	    while grep -Fxq "$resultados_temp" $reservados || grep -Fxq "$resultados_temp" $ingresados || [[ $resultados_temp == *"."* ]] || [[ $resultados_temp == *"/"* ]] ; do
 	        if grep -Fxq "$resultados_temp" $reservados
 	        then
 	            echo "El nombre \"$resultados_temp\" no está permitido debido a que el directorio ya existe."
 	            echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-El nombre \"$resultados_temp\" no está permitido debido a que el directorio ya existe.-instalarTP.sh-`users`" >> ./instalarTP.log
 	        else
-	            echo "EL nombre \"$resultados_temp\" ya fue seleccionado para otro directorio."
-	            echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-EL nombre \"$resultados_temp\" ya fue seleccionado para otro directorio.-instalarTP.sh-`users`" >> ./instalarTP.log
+	            if grep -Fxq "$resultados_temp" $ingresados
+	            then
+	                echo "EL nombre \"$resultados_temp\" ya fue seleccionado para otro directorio."
+	                echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-EL nombre \"$resultados_temp\" ya fue seleccionado para otro directorio.-instalarTP.sh-`users`" >> ./instalarTP.log
+	            else
+	                echo "No está permitido el uso de los caracteres "/" o "." para el nombre de los directorios."
+	                echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-No está permitido el uso de los caracteres "/" o "." para el nombre de los directorios.-instalarTP.sh-`users`" >> ./instalarTP.log
+	            fi
 	        fi
 	    	read -p "Ingrese un nombre para el directorio de resultados (en caso de dejar en blanco, se utilizará el nombre por default \"$resultados_default\"): `echo $'\n> '`" resultados_temp
 	    	echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Ingrese un nombre para el directorio de resultados (en caso de dejar en blanco, se utilizará el nombre por default \"$resultados_default\"):-instalarTP.sh-`users`" >> ./instalarTP.log
