@@ -45,6 +45,7 @@ else
 	else
 	    echo "Verificación de directorios: OK."
 	    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Verificación de directorios: OK.-iniciarambiente.sh-`users`" >> ./iniciarambiente.log
+	    
 	    #Verificar archivos.
 	    echo "Verificando archivos."
 	    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Verificando archivos.-iniciarambiente.sh-`users`" >> ./iniciarambiente.log
@@ -55,6 +56,24 @@ else
 	    else
 	        echo "Verificación de archivos: OK"
 	        echo "`date '+%d/%m/%Y %H:%M:%S'`-ERR-Verificación de archivos: OK.-iniciarambiente.sh-`users`" >> ./iniciarambiente.log
+	        
+	        #Verificar permisos.
+	        echo "Verificando permisos."
+	        echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Verificando permisos.-iniciarambiente.sh-`users`" >> ./iniciarambiente.log
+	        
+	        if [ ! -r "$dirmae"/comercios.txt ] ; then
+	            chmod +r "$dirmae"/comercios.txt
+	        fi
+	        
+	        if [ ! -r "$dirmae"/tarjetashomologadas.txt ] ; then
+	            chmod +r "$dirmae"/tarjetashomologadas.txt
+	        fi
+	        
+	        echo "Verificación de permisos: OK"
+	        echo "`date '+%d/%m/%Y %H:%M:%S'`-ERR-Verificación de permisos: OK.-iniciarambiente.sh-`users`" >> ./iniciarambiente.log
+	        
+	       #Aca ejecutar el programa principal!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	       
 	    fi
 	fi
 fi
