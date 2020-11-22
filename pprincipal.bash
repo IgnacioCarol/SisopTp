@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#Todo Make this file a .sh and fix the problems associated with that. Also fix paths with bugs, force an error in checkAccepted
 #$GRUPO/so7508/pprincipal.log
 PATH_TO_LOGGER="./loggerFiles/logger.txt"
 #$GRUPO/input
@@ -150,7 +150,7 @@ checkTFD() {
   done < "$filename"
 
   if [ ${#errorMessage} -ne 0 ]; then
-    sendToRejectedFolder "$INPUT_INPUT_ACCEPTED_PATH${filename}" "${errorMessage}"
+    sendToRejectedFolder "${filename}" "${errorMessage}"
     return 1
   fi
 
