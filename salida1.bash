@@ -23,6 +23,7 @@ output1(){
       getSettlementFileName $tfd $tfh
       echo "$(echo $tfd | sed "s/^TFD/$filename/")" >> "${OUTPUT_PATH}${settlementFileName}"
     done
+    echo "$settlementFileName ${#registersNotComp[*]}"
   done
 }
 
