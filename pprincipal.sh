@@ -1,21 +1,18 @@
 #!/bin/sh
 
 #Todo Make this file a .sh and fix the problems associated with that. Also fix paths with bugs, force an error in checkAccepted
-#$GRUPO/so7508/pprincipal.log
-PATH_TO_LOGGER="./loggerFiles/logger.txt"
-#$GRUPO/input
-INPUT_PATH="./inputTest/"
+OUTPUT_PLACE="$GRUPO/so7508/"
+OUTPUT_COMMISSIONS="$GRUPO/output/"
+PATH_TO_LOGGER="${OUTPUT_PLACE}pprincipal.log"
+INPUT_PATH="$GRUPO/input"
 INPUT_ACCEPTED_PATH="${INPUT_PATH}ok/"
 APPROVED_CARDS_PATH="./payment.txt"
-#$GRUPO/rechazos
-REJECTED_PATH="./rechazos"
-#$DIRMAE/comercios.txt
-MERCHANT_REGISTER="./merchantForTest"
-OUTPUT_PLACE="./loggerFiles/"
+REJECTED_PATH="$GRUPO/rechazos"
+MERCHANT_REGISTER="$DIRMAE/comercios.txt"
 ACTUAL_CYCLE=1
-TIME_TO_SLEEP=5
-PROCESSED_FILES="./processFiles"
-OUTPUT_COMMISSIONS_PATH="./comisiones/"
+TIME_TO_SLEEP=60
+PROCESSED_FILES="$GRUPO/lotes"
+OUTPUT_COMMISSIONS_PATH="${OUTPUT_COMMISSIONS}comisiones"
 
 export INPUT_ACCEPTED_PATH
 export APPROVED_CARDS_PATH
@@ -29,7 +26,12 @@ fi
 
 #Ending check
 writeInLogger() {
-  echo "$1" >>${PATH_TO_LOGGER}
+  type=$2
+  if [ -z "${type}" ]; then
+    type='INF'
+  fi
+  currentTime=$(date +"%D %T")
+  echo "$currentTime - $INF - $1 - pprincipal.sh - $USER" >>"${PATH_TO_LOGGER}"
 }
 sendToRejectedFolder() {
   message=$2
@@ -40,7 +42,7 @@ sendToRejectedFolder() {
     inputPath=$INPUT_PATH
   fi
   mv "${inputPath}$1" ${REJECTED_PATH}
-  writeInLogger "File $1 move to rejected because ${message}"
+  writeInLogger "File $1 move to rejected because ${message}" "WAR"
 }
 
 checkNameFiles() {
@@ -169,7 +171,12 @@ checkForRepeatedFIle() {
 
 if [ ! -d "$OUTPUT_PLACE" ]; then
   mkdir "$OUTPUT_PLACE"
-  echo "Folder created at ${OUTPUT_PLACE}"
+  writeInLogger "Folder created at ${OUTPUT_PLACE}"
+fi
+
+if [ ! -d "$OUTPUT_COMMISSIONS" ]; then
+  mkdir "$OUTPUT_COMMISSIONS"
+  writeInLogger "Folder created at ${OUTPUT_PLACE}"
 fi
 
 processFiles() {
