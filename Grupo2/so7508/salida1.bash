@@ -20,7 +20,9 @@ output1() {
     getSettlementFileName $tfd $tfh
     echo "$(echo $tfd | sed "s/^TFD/$filename/")" >>"${OUTPUT_COMMISSIONS_PATH}${settlementFileName}"
   done
-  echo "$settlementFileName;${#registersNotComp[*]}"
+  if [ -n "$settlementFileName" ]; then
+    echo "$settlementFileName;${#registersNotComp[*]}"
+  fi
 }
 
 output1 "$FILE"

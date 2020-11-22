@@ -1,18 +1,18 @@
 #!/bin/sh
 
-#Todo Make this file a .sh and fix the problems associated with that. Also fix paths with bugs, force an error in checkAccepted
+
 OUTPUT_PLACE="$GRUPO/so7508/"
 OUTPUT_COMMISSIONS="$GRUPO/output/"
 PATH_TO_LOGGER="${OUTPUT_PLACE}pprincipal.log"
-INPUT_PATH="$GRUPO/input"
+INPUT_PATH="$GRUPO/input/"
 INPUT_ACCEPTED_PATH="${INPUT_PATH}ok/"
-APPROVED_CARDS_PATH="./payment.txt"
+APPROVED_CARDS_PATH="$DIRMAE/tarjetashomologadas.txt"
 REJECTED_PATH="$GRUPO/rechazos"
 MERCHANT_REGISTER="$DIRMAE/comercios.txt"
 ACTUAL_CYCLE=1
 TIME_TO_SLEEP=60
 PROCESSED_FILES="$GRUPO/lotes"
-OUTPUT_COMMISSIONS_PATH="${OUTPUT_COMMISSIONS}comisiones"
+OUTPUT_COMMISSIONS_PATH="${OUTPUT_COMMISSIONS}comisiones/"
 
 export INPUT_ACCEPTED_PATH
 export APPROVED_CARDS_PATH
@@ -31,7 +31,7 @@ writeInLogger() {
     type='INF'
   fi
   currentTime=$(date +"%D %T")
-  echo "$currentTime - $INF - $1 - pprincipal.sh - $USER" >>"${PATH_TO_LOGGER}"
+  echo "$currentTime - $type - $1 - pprincipal.sh - $USER" >>"${PATH_TO_LOGGER}"
 }
 sendToRejectedFolder() {
   message=$2
@@ -42,7 +42,8 @@ sendToRejectedFolder() {
     inputPath=$INPUT_PATH
   fi
   mv "${inputPath}$1" ${REJECTED_PATH}
-  writeInLogger "File $1 move to rejected because ${message}" "WAR"
+  file=$(echo $1 | sed 's/.*\/\(.*\)/\1$/')
+  writeInLogger "File $file move to rejected because ${message}" "WAR"
 }
 
 checkNameFiles() {
@@ -191,7 +192,7 @@ processFiles() {
 }
 chmod a+x ./salida1.bash && chmod a+x ./salida2.bash
 while true; do
-  echo "Voy por el ciclo ${ACTUAL_CYCLE}" >>${PATH_TO_LOGGER}
+  writeInLogger "Voy por el ciclo ${ACTUAL_CYCLE}"
   ls ${INPUT_PATH} -I'ok' | checkNameFiles | checkForCorrectParsedFiles | checkForValidMerchantCode | checkForRepeatedFIle | moveToValidFiles
   ls $INPUT_ACCEPTED_PATH | checkAcceptedFiles
   ls $INPUT_ACCEPTED_PATH | processFiles
