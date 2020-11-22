@@ -4,12 +4,13 @@
 ### Ignacio Carol Lugones, 100073
 ### Nahuel Minino, 99599
 
-Guía para acceder al TP:
+
+#### Guía para acceder al TP:
 
 1. Acceda al repositorio de Github.
 1.1 Ingrese con un navegador de internet a la página https://github.com/IgnacioCarol/SisopTp
 
-Guía para la descarga del sistema:
+#### Guía para la descarga del sistema:
 
 1. Descargue los archivos del sistema
 
@@ -21,7 +22,7 @@ Guía para la descarga del sistema:
 
 2.1 Otra opción es seleccionar la opción "Download zip" desde el repositorio de Github
 
-Guía para la instalación del sistema:
+#### Guía para la instalación del sistema:
 
 1. Abra una terminal y navegue hasta el directorio Grupo2 (donde se descargó el programa)
 
@@ -37,4 +38,4 @@ Guía para la instalación del sistema:
 
 3.2 Siga las instrucciones indicadas en pantalla para la correcta instalación del sistema
 
-Guía para la ejecución del sistema:
+#### Guía para la ejecución del sistema:
