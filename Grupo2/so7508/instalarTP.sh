@@ -39,6 +39,8 @@ then #Caso en el que no existe. Realizamos la instalación.
 	    if [[ -z "$ejecutables_temp" ]] ; then
 	        ejecutables_temp=$ejecutables_default
 	    fi
+	    
+	    ejecutables_temp=`echo "$ejecutables_temp" | sed "s/ /_/g"`
 	    ejecutables_default=$ejecutables_temp
 	    echo $ejecutables_temp > $ingresados
 	
@@ -63,6 +65,8 @@ then #Caso en el que no existe. Realizamos la instalación.
 	    if [[ -z "$tablas_temp" ]] ; then
 	        tablas_temp=$tablas_default
 	    fi
+	    
+	    tablas_temp=`echo "$tablas_temp" | sed "s/ /_/g"`
 	    tablas_default=$tablas_temp
 	    echo $tablas_temp >> $ingresados
 	
@@ -87,6 +91,8 @@ then #Caso en el que no existe. Realizamos la instalación.
 	    if [[ -z "$novedades_temp" ]] ; then
 	        novedades_temp=$novedades_default
 	    fi
+	    
+	    novedades_temp=`echo "$novedades_temp" | sed "s/ /_/g"`
 	    novedades_default=$novedades_temp
 	    echo $novedades_temp >> $ingresados
 	
@@ -111,6 +117,8 @@ then #Caso en el que no existe. Realizamos la instalación.
 	    if [[ -z "$rechazados_temp" ]] ; then
 	        rechazados_temp=$rechazados_default
 	    fi
+	    
+	    rechazados_temp=`echo "$rechazados_temp" | sed "s/ /_/g"`
 	    rechazados_default=$rechazados_temp
 	    echo $rechazados_temp >> $ingresados
 	
@@ -135,6 +143,8 @@ then #Caso en el que no existe. Realizamos la instalación.
 	    if [[ -z "$lotes_temp" ]] ; then
 	        lotes_temp=$lotes_default
 	    fi
+	    
+	    lotes_temp=`echo "$lotes_temp" | sed "s/ /_/g"`
 	    lotes_default=$lotes_temp
 	    echo $lotes_temp >> $ingresados
 	
@@ -158,6 +168,8 @@ then #Caso en el que no existe. Realizamos la instalación.
 	    if [[ -z "$resultados_temp" ]] ; then
 	        resultados_temp=$resultados_default
 	    fi
+	    
+	    resultados_temp=`echo "$resultados_temp" | sed "s/ /_/g"`
 	    resultados_default=$resultados_temp
 	    echo $resultados_temp >> $ingresados
 	    
