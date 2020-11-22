@@ -157,6 +157,16 @@ checkAcceptedFiles() {
   done
 }
 
+checkForRepeatedFIle() {
+  while read fileName; do
+    if ls $PROCESSED_FILES | grep -q "^$fileName$"; then
+      sendToRejectedFolder "$fileName" 'File already processed'
+    else
+      echo "$fileName"
+    fi
+  done
+}
+
 if [ ! -d "$OUTPUT_PLACE" ]; then
   mkdir "$OUTPUT_PLACE"
   echo "Folder created at ${OUTPUT_PLACE}"
@@ -175,7 +185,7 @@ processFiles() {
 chmod a+x ./salida1.bash && chmod a+x ./salida2.bash
 while true; do
   echo "Voy por el ciclo ${ACTUAL_CYCLE}" >>${PATH_TO_LOGGER}
-  ls ${INPUT_PATH} -I'ok' | checkNameFiles | checkForCorrectParsedFiles | checkForValidMerchantCode | moveToValidFiles
+  ls ${INPUT_PATH} -I'ok' | checkNameFiles | checkForCorrectParsedFiles | checkForValidMerchantCode | checkForRepeatedFIle | moveToValidFiles
   ls $INPUT_ACCEPTED_PATH | checkAcceptedFiles
   ls $INPUT_ACCEPTED_PATH | processFiles
   ACTUAL_CYCLE=$((ACTUAL_CYCLE + 1))
