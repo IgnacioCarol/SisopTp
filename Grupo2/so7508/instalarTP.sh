@@ -303,6 +303,9 @@ then #Caso en el que no existe. Realizamos la instalación.
 	#Copiamos las tablas maestras y los archivos ejecutables.
 	cp ../original/tablasmaestras/comercios.txt $(dirname `pwd`)/$tablas_default/comercios.txt
 	cp ../original/tablasmaestras/tarjetashomologadas.txt $(dirname `pwd`)/$tablas_default/tarjetashomologadas.txt
+	cp ../original/scripts/pprincipal.sh $(dirname `pwd`)/$ejecutables_default/pprincipal.sh
+	cp ../original/scripts/salida1.bash $(dirname `pwd`)/$ejecutables_default/salida1.bash
+	cp ../original/scripts/salida2.bash $(dirname `pwd`)/$ejecutables_default/salida2.bash
 	
 	echo "INSTALACION-`date '+%d/%m/%Y %H:%M:%S'`-`users`" >> ./instalarTP.conf
 	echo "Estado de la instalación:                     COMPLETADA"
@@ -311,16 +314,16 @@ then #Caso en el que no existe. Realizamos la instalación.
 else #Caso en el que existe. Vemos si se debe reparar el sistema o no.
 	
 	#Inicializamos variables con los directorios y archivos que debemos comprobar su existencia.
-	dirbin=`grep "^DIRBIN-" instalarTP.conf | sed 's/DIRBIN-\(.*\)/\1/'`
-	dirmae=`grep "^DIRMAE-" instalarTP.conf | sed 's/DIRMAE-\(.*\)/\1/'`
-	dirin=`grep "^DIRIN-" instalarTP.conf | sed 's/DIRIN-\(.*\)/\1/'`
-	dirin_sub="$dirin/ok"
-	dirrech=`grep "^DIRRECH-" instalarTP.conf | sed 's/DIRRECH-\(.*\)/\1/'`
-	dirproc=`grep "^DIRPROC-" instalarTP.conf | sed 's/DIRPROC-\(.*\)/\1/'`
-	dirout=`grep "^DIROUT-" instalarTP.conf | sed 's/DIROUT-\(.*\)/\1/'`
-	dirout_sub="$dirout/comisiones"
+	DIRBIN=`grep "^DIRBIN-" instalarTP.conf | sed 's/DIRBIN-\(.*\)/\1/'`
+	DIRMAE=`grep "^DIRMAE-" instalarTP.conf | sed 's/DIRMAE-\(.*\)/\1/'`
+	DIRIN=`grep "^DIRIN-" instalarTP.conf | sed 's/DIRIN-\(.*\)/\1/'`
+	DIRIN_SUB="$DIRIN/ok"
+	DIRRECH=`grep "^DIRRECH-" instalarTP.conf | sed 's/DIRRECH-\(.*\)/\1/'`
+	DIRPROC=`grep "^DIRPROC-" instalarTP.conf | sed 's/DIRPROC-\(.*\)/\1/'`
+	DIROUT=`grep "^DIROUT-" instalarTP.conf | sed 's/DIROUT-\(.*\)/\1/'`
+	DIROUT_SUB="$DIROUT/comisiones"
 	
-	directorios=("$dirbin" "$dirmae" "$dirin" "$dirin_sub" "$dirrech" "$dirproc" "$dirout" "$dirout_sub")
+	directorios=("$DIRBIN" "$DIRMAE" "$DIRIN" "$DIRIN_SUB" "$DIRRECH" "$DIRPROC" "$DIROUT" "$DIROUT_SUB")
 	
 	reparar="No"
 	
@@ -332,7 +335,7 @@ else #Caso en el que existe. Vemos si se debe reparar el sistema o no.
 	done
 	
 	if [ "$reparar" = "No" ] ; then
-	    if [[ ! -f "$dirmae"/comercios.txt || ! -f "$dirmae"/tarjetashomologadas.txt ]]; then
+	    if [[ ! -f "$DIRMAE"/comercios.txt || ! -f "$DIRMAE"/tarjetashomologadas.txt ]] || ! -f "$DIRBIN"/pprincipal.sh ]] || ! -f "$DIRBIN"/salida1.bash ]] || ! -f "$DIRBIN"/salida2.bash ]] ; then
 	        reparar="Yes"
 	    fi
 	fi
@@ -352,14 +355,14 @@ else #Caso en el que existe. Vemos si se debe reparar el sistema o no.
 	    echo "Archivo de configuración:                 `pwd`/instalarTP.conf"
 	    echo "Log de inicialización:                    `pwd`/iniciarambiente.log"
 	    echo "Log del proceso principal:                `pwd`/pprincipal.log"
-	    echo "Directorio de ejecutables:                $dirbin"
-	    echo "Directorio de tablas maestras:            $dirmae"
-	    echo "Directorio de novedades:                  $dirin"
-	    echo "Directorio de novedades aceptadas:        $dirin_sub"
-	    echo "Directorio de rechazados:                 $dirrech"
-	    echo "Directorio de lotes procesados:           $dirproc"
-	    echo "Directorio de transacciones:              $dirout"
-	    echo "Directorio de comisiones:                 $dirout_sub"
+	    echo "Directorio de ejecutables:                $DIRBIN"
+	    echo "Directorio de tablas maestras:            $DIRMAE"
+	    echo "Directorio de novedades:                  $DIRIN"
+	    echo "Directorio de novedades aceptadas:        $DIRIN_SUB"
+	    echo "Directorio de rechazados:                 $DIRRECH"
+	    echo "Directorio de lotes procesados:           $DIRPROC"
+	    echo "Directorio de transacciones:              $DIROUT"
+	    echo "Directorio de comisiones:                 $DIROUT_SUB"
 	    echo "Estado de la reparación:                  LISTA"
 	    echo ""
 	    
@@ -370,14 +373,14 @@ else #Caso en el que existe. Vemos si se debe reparar el sistema o no.
 	    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Archivo de configuración:                 `pwd`/instalarTP.conf-instalarTP.sh-`users`" >> ./instalarTP.log
 	    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Log de inicialización:                    `pwd`/iniciarambiente.log-instalarTP.sh-`users`" >> ./instalarTP.log
 	    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Log del proceso principal:                `pwd`/pprincipal.log-instalarTP.sh-`users`" >> ./instalarTP.log
-	    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Directorio de ejecutables:                $dirbin-instalarTP.sh-`users`" >> ./instalarTP.log
-	    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Directorio de tablas maestras:            $dirmae-instalarTP.sh-`users`" >> ./instalarTP.log
-	    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Directorio de novedades:                  $dirin-instalarTP.sh-`users`" >> ./instalarTP.log
-	    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Directorio de novedades aceptadas:        $dirin_sub-instalarTP.sh-`users`" >> ./instalarTP.log
-	    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Directorio de rechazados:                 $dirrech-instalarTP.sh-`users`" >> ./instalarTP.log
-	    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Directorio de lotes procesados:           $dirproc-instalarTP.sh-`users`" >> ./instalarTP.log
-	    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Directorio de transacciones:              $dirout-instalarTP.sh-`users`" >> ./instalarTP.log
-	    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Directorio de comisiones:                 $dirout_sub-instalarTP.sh-`users`" >> ./instalarTP.log
+	    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Directorio de ejecutables:                $DIRBIN-instalarTP.sh-`users`" >> ./instalarTP.log
+	    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Directorio de tablas maestras:            $DIRMAE-instalarTP.sh-`users`" >> ./instalarTP.log
+	    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Directorio de novedades:                  $DIRIN-instalarTP.sh-`users`" >> ./instalarTP.log
+	    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Directorio de novedades aceptadas:        $DIRIN_SUB-instalarTP.sh-`users`" >> ./instalarTP.log
+	    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Directorio de rechazados:                 $DIRRECH-instalarTP.sh-`users`" >> ./instalarTP.log
+	    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Directorio de lotes procesados:           $DIRPROC-instalarTP.sh-`users`" >> ./instalarTP.log
+	    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Directorio de transacciones:              $DIROUT-instalarTP.sh-`users`" >> ./instalarTP.log
+	    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Directorio de comisiones:                 $DIROUT_SUB-instalarTP.sh-`users`" >> ./instalarTP.log
 	    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Estado de la reparación:                  LISTA-instalarTP.sh-`users`" >> ./instalarTP.log
 	    
 	    read -p "¿Confirma la reparación? (Y/N) `echo $'\n> '`" respuesta
@@ -397,68 +400,89 @@ else #Caso en el que existe. Vemos si se debe reparar el sistema o no.
 	        echo "Comenzando reparación del sistema."
 	        echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Comenzando reparación del sistema.-instalarTP.sh-`users`" >> ./instalarTP.log
 	    
-	        if [ ! -d "$dirbin" ]; then
-	            echo "No se encontró el directorio de ejecutables $dirbin. Reparando directorio."
-	            echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-No se encontró el directorio de ejecutables $dirbin. Reparando directorio.-instalarTP.sh-`users`" >> ./instalarTP.log
-                mkdir $dirbin
+	        if [ ! -d "$DIRBIN" ]; then
+	            echo "No se encontró el directorio de ejecutables $DIRBIN. Reparando directorio."
+	            echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-No se encontró el directorio de ejecutables $DIRBIN. Reparando directorio.-instalarTP.sh-`users`" >> ./instalarTP.log
+                mkdir $DIRBIN
+				cp ../original/scripts/pprincipal.sh $DIRBIN/pprincipal.sh
+				cp ../original/scripts/salida1.bash $DIRBIN/salida1.bash
+				cp ../original/scripts/salida2.bash $DIRBIN/salida2.bash
 	        fi
 	    
-	        if [ ! -d "$dirmae" ]; then
-	            echo "No se encontró el directorio de tablas del sistema $dirmae. Reparando directorio."
-	            echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-No se encontró el directorio de tablas del sistema $dirmae. Reparando directorio.-instalarTP.sh-`users`" >> ./instalarTP.log
-                mkdir $dirmae
-                cp ../original/tablasmaestras/comercios.txt $dirmae/comercios.txt
-                cp ../original/tablasmaestras/tarjetashomologadas.txt $dirmae/tarjetashomologadas.txt
+	        if [ ! -d "$DIRMAE" ]; then
+	            echo "No se encontró el directorio de tablas del sistema $DIRMAE. Reparando directorio."
+	            echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-No se encontró el directorio de tablas del sistema $DIRMAE. Reparando directorio.-instalarTP.sh-`users`" >> ./instalarTP.log
+                mkdir $DIRMAE
+                cp ../original/tablasmaestras/comercios.txt $DIRMAE/comercios.txt
+                cp ../original/tablasmaestras/tarjetashomologadas.txt $DIRMAE/tarjetashomologadas.txt
 	        fi
 	    
-	        if [ ! -d "$dirin" ]; then
-	            echo "No se encontró el directorio de novedades $dirin. Reparando directorio."
-	            echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-No se encontró el directorio de novedades $dirin. Reparando directorio.-instalarTP.sh-`users`" >> ./instalarTP.log
-                mkdir $dirin
-                mkdir $dirin_sub
+	        if [ ! -d "$DIRIN" ]; then
+	            echo "No se encontró el directorio de novedades $DIRIN. Reparando directorio."
+	            echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-No se encontró el directorio de novedades $DIRIN. Reparando directorio.-instalarTP.sh-`users`" >> ./instalarTP.log
+                mkdir $DIRIN
+                mkdir $DIRIN_SUB
 	        fi
 	    
-	        if [ ! -d "$dirin_sub" ]; then
-	            echo "No se encontró el directorio de novedades aceptadas $dirin_sub. Reparando directorio."
-	            echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-No se encontró el directorio de novedades aceptadas $dirin_sub. Reparando directorio.-instalarTP.sh-`users`" >> ./instalarTP.log
-                mkdir $dirin_sub
+	        if [ ! -d "$DIRIN_SUB" ]; then
+	            echo "No se encontró el directorio de novedades aceptadas $DIRIN_SUB. Reparando directorio."
+	            echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-No se encontró el directorio de novedades aceptadas $DIRIN_SUB. Reparando directorio.-instalarTP.sh-`users`" >> ./instalarTP.log
+                mkdir $DIRIN_SUB
 	        fi
 	    
-	        if [ ! -d "$dirrech" ]; then
-	            echo "No se encontró el directorio de archivos rechazados $dirrech. Reparando directorio."
-	            echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-No se encontró el directorio de archivos rechazados $dirrech. Reparando directorio.-instalarTP.sh-`users`" >> ./instalarTP.log
-                mkdir $dirrech
+	        if [ ! -d "$DIRRECH" ]; then
+	            echo "No se encontró el directorio de archivos rechazados $DIRRECH. Reparando directorio."
+	            echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-No se encontró el directorio de archivos rechazados $DIRRECH. Reparando directorio.-instalarTP.sh-`users`" >> ./instalarTP.log
+                mkdir $DIRRECH
 	        fi
 	    
-	        if [ ! -d "$dirproc" ]; then
-	            echo "No se encontró el directorio de lotes procesados $dirproc. Reparando directorio."
-	            echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-No se encontró el directorio de lotes procesados $dirproc. Reparando directorio.-instalarTP.sh-`users`" >> ./instalarTP.log
-                mkdir $dirproc
+	        if [ ! -d "$DIRPROC" ]; then
+	            echo "No se encontró el directorio de lotes procesados $DIRPROC. Reparando directorio."
+	            echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-No se encontró el directorio de lotes procesados $DIRPROC. Reparando directorio.-instalarTP.sh-`users`" >> ./instalarTP.log
+                mkdir $DIRPROC
 	        fi
 	    
-	        if [ ! -d "$dirout" ]; then
-	            echo "No se encontró el directorio de resultados $dirout. Reparando directorio."
-	            echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-No se encontró el directorio de resultados $dirout. Reparando directorio.-instalarTP.sh-`users`" >> ./instalarTP.log
-                mkdir $dirout
-                mkdir $dirout_sub
+	        if [ ! -d "$DIROUT" ]; then
+	            echo "No se encontró el directorio de resultados $DIROUT. Reparando directorio."
+	            echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-No se encontró el directorio de resultados $DIROUT. Reparando directorio.-instalarTP.sh-`users`" >> ./instalarTP.log
+                mkdir $DIROUT
+                mkdir $DIROUT_SUB
 	        fi
 	    
-	        if [ ! -d "$dirout_sub" ]; then
-	            echo "No se encontró el directorio de comisiones $dirout_sub. Reparando directorio."
-	            echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-No se encontró el directorio de comisiones $dirout_sub. Reparando directorio.-instalarTP.sh-`users`" >> ./instalarTP.log
-                mkdir $dirout_sub
+	        if [ ! -d "$DIROUT_SUB" ]; then
+	            echo "No se encontró el directorio de comisiones $DIROUT_SUB. Reparando directorio."
+	            echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-No se encontró el directorio de comisiones $DIROUT_SUB. Reparando directorio.-instalarTP.sh-`users`" >> ./instalarTP.log
+                mkdir $DIROUT_SUB
 	        fi
 	    
-	        if [ ! -f "$dirmae"/comercios.txt ];then
+	        if [ ! -f "$DIRMAE"/comercios.txt ];then
 	            echo "No se encontró el maestro de comercios. Reparando archivo."
 	            echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-No se encontró el maestro de comercios. Reparando archivo.-instalarTP.sh-`users`" >> ./instalarTP.log
-	            cp ../original/tablasmaestras/comercios.txt $dirmae/comercios.txt
+	            cp ../original/tablasmaestras/comercios.txt $DIRMAE/comercios.txt
 	        fi
 	    
-	        if [ ! -f "$dirmae"/tarjetashomologadas.txt ]; then
+	        if [ ! -f "$DIRMAE"/tarjetashomologadas.txt ]; then
 	            echo "No se encontró el maestro de tarjetas. Reparando archivo."
 	            echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-No se encontró el maestro de tarjetas. Reparando archivo.-instalarTP.sh-`users`" >> ./instalarTP.log
-	            cp ../original/tablasmaestras/tarjetashomologadas.txt $dirmae/tarjetashomologadas.txt
+	            cp ../original/tablasmaestras/tarjetashomologadas.txt $DIRMAE/tarjetashomologadas.txt
+	        fi
+			
+			if [ ! -f "$DIRBIN"/pprincipal.sh ]; then
+	            echo "No se encontró el ejecutable del programa principal. Reparando archivo."
+	            echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-No se encontró el ejecutable del programa principal. Reparando archivo.-instalarTP.sh-`users`" >> ./instalarTP.log
+	            cp ../original/scripts/pprincipal.sh $DIRBIN/pprincipal.sh
+	        fi
+			
+			if [ ! -f "$DIRBIN"/salida1.bash ]; then
+	            echo "No se encontró el ejecutable de archivos de liquidación. Reparando archivo."
+	            echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-No se encontró el ejecutable de archivos de liquidación. Reparando archivo.-instalarTP.sh-`users`" >> ./instalarTP.log
+	            cp ../original/scripts/salida1.bash $DIRBIN/salida1.bash
+	        fi
+			
+			if [ ! -f "$DIRBIN"/salida2.bash ]; then
+	            echo "No se encontró el ejecutable de cálculo del costo del servicio. Reparando archivo."
+	            echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-No se encontró el ejecutable de cálculo del costo del servicio. Reparando archivo.-instalarTP.sh-`users`" >> ./instalarTP.log
+	            cp ../original/scripts/salida2.bash $DIRBIN/salida2.bash
 	        fi
 	    
 	        echo "REPARACION-`date '+%d/%m/%Y %H:%M:%S'`-`users`" >> ./instalarTP.conf
