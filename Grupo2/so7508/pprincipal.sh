@@ -1,6 +1,12 @@
 #!/bin/sh
 
-
+if [ -z "$1" ] || [ "$1" = '--iniciarproceso' ]; then
+  GRUPO=$(grep "^GRUPO-" instalarTP.conf | sed 's/GRUPO-\(.*\)/\1/')
+  DIRMAE=$(grep "^DIRMAE-" instalarTP.conf | sed 's/DIRMAE-\(.*\)/\1/')
+else
+  kill "$(ps aux | grep 'pprincipal' | head -1 | sed "s/$USER\s*\([0-9]*\).*/\1/")"
+  exit 0
+fi
 OUTPUT_PLACE="$GRUPO/so7508/"
 OUTPUT_COMMISSIONS="$GRUPO/output/"
 PATH_TO_LOGGER="${OUTPUT_PLACE}pprincipal.log"
