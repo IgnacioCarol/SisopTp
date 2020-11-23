@@ -87,3 +87,10 @@ Para reparar el sistema en caso de que se borre algún directorio o archivo se d
 4.3 En caso de no estar de acuerdo, rechazar la reparación ingresando "N" o "n"
 
 #### Guía para la inicialización del sistema:
+
+#### Guía para usar iniciarproceso y frenarproceso
+
+Para iniciar el proceso vaya a donde este ubicado el archivo pprincipal.sh, inicialmente ubicado en la carpeta donde se descargo el programa.
+Desde ahi corra el comando ./pprincipal.sh, tambien es posible correrlo con el comando ./pprincipal.sh --iniciarproceso.
+
+Para frenar el proceso dirigase al mismo directorio y corra el comando ./pprincipal.sh --frenarproceso. Y el proceso antes iniciado deberia ser terminado inmediatamente.
