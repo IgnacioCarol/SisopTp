@@ -1,13 +1,19 @@
 clear
+if [ -z "$1" ]; then
+    echo "Por favor, indique el parámetro con el cuál ejecutar este script (\"--iniciarproceso\" o \"--frenarproceso\")."
+    echo "`date '+%d/%m/%Y %H:%M:%S'`-WAR-Por favor, indique el parámetro con el cuál ejecutar este script (\"--iniciarproceso\" o \"--frenarproceso\").-iniciarambiente.sh-$USER" >> ./iniciarambiente.log
+    exit 0
+fi
+
 echo "Bienvenido al programa de inicialización del sistema."
-echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Bienvenido al programa de inicialización del sistema.-iniciarambiente.sh-`users`" >> ./iniciarambiente.log
+echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Bienvenido al programa de inicialización del sistema.-iniciarambiente.sh-$USER" >> ./iniciarambiente.log
 #Verificar configuración.
 if [ ! -f "./instalarTP.conf" ] #Vemos si existe el archivo de configuración del sistema.
 then
     echo "El sistema no está instalado."
-    echo "`date '+%d/%m/%Y %H:%M:%S'`-ERR-El sistema no está instalado.-iniciarambiente.sh-`users`" >> ./iniciarambiente.log
+    echo "`date '+%d/%m/%Y %H:%M:%S'`-ERR-El sistema no está instalado.-iniciarambiente.sh-$USER" >> ./iniciarambiente.log
     echo "Realizar la instalación del sistema ejecutando el archivo \"instalarTP.sh\" antes de realizar la inicialización."
-    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Realizar la instalación del sistema ejecutando el archivo \"instalarTP.sh\" antes de realizar la inicialización.-iniciarambiente.sh-`users`" >> ./iniciarambiente.log
+    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Realizar la instalación del sistema ejecutando el archivo \"instalarTP.sh\" antes de realizar la inicialización.-iniciarambiente.sh-$USER" >> ./iniciarambiente.log
 else
 	#Inicializar variables.
 	GRUPO=`grep "^GRUPO-" instalarTP.conf | sed 's/GRUPO-\(.*\)/\1/'`
@@ -22,14 +28,20 @@ else
 	DIROUT_SUB="$DIROUT/comisiones"
 	
 	export GRUPO
+	export DIRINST
+	export DIRBIN
 	export DIRMAE
+	export DIRIN
+	export DIRRECH
+	export DIRPROC
+	export DIROUT
 	
 	echo "Variables de ambiente inicializadas correctamente."
-	echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Variables de ambiente inicializadas correctamente.-iniciarambiente.sh-`users`" >> ./iniciarambiente.log
+	echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Variables de ambiente inicializadas correctamente.-iniciarambiente.sh-$USER" >> ./iniciarambiente.log
 	
 	#Verificar directorios.
 	echo "Verificando directorios."
-	echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Verificando directorios.-iniciarambiente.sh-`users`" >> ./iniciarambiente.log
+	echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Verificando directorios.-iniciarambiente.sh-$USER" >> ./iniciarambiente.log
 	
 	directorios=("$DIRBIN" "$DIRMAE" "$DIRIN" "$DIRIN_SUB" "$DIRRECH" "$DIRPROC" "$DIROUT" "$DIROUT_SUB")
 	
@@ -44,10 +56,10 @@ else
 	
 	if [ "$reparar_dir" = "Yes" ] ; then
 	    echo "Directorio faltante. Ejecutar el script \"instalarTP.sh\" para reparar el sistema antes de realizar la inicialización."
-	    echo "`date '+%d/%m/%Y %H:%M:%S'`-ERR-Directorio faltante. Ejecutar el script \"instalarTP.sh\" para reparar el sistema antes de realizar la inicialización.-iniciarambiente.sh-`users`" >> ./iniciarambiente.log
+	    echo "`date '+%d/%m/%Y %H:%M:%S'`-ERR-Directorio faltante. Ejecutar el script \"instalarTP.sh\" para reparar el sistema antes de realizar la inicialización.-iniciarambiente.sh-$USER" >> ./iniciarambiente.log
 	else
 	    echo "Verificación de directorios: OK."
-	    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Verificación de directorios: OK.-iniciarambiente.sh-`users`" >> ./iniciarambiente.log
+	    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Verificación de directorios: OK.-iniciarambiente.sh-$USER" >> ./iniciarambiente.log
 	    
 	    #Verificar archivos.
 		MAE_COMERCIOS="$DIRMAE"/comercios.txt
@@ -57,7 +69,7 @@ else
 		EJE_SALIDA2="$DIRBIN"/salida2.bash
 		
 	    echo "Verificando archivos."
-	    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Verificando archivos.-iniciarambiente.sh-`users`" >> ./iniciarambiente.log
+	    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Verificando archivos.-iniciarambiente.sh-$USER" >> ./iniciarambiente.log
 	    
 		archivos=("$MAE_COMERCIOS" "$MAE_TARJETAS" "$EJE_PRINCIPAL" "$EJE_SALIDA1" "$EJE_SALIDA2")
 		
@@ -72,14 +84,14 @@ else
 		
 	    if [ "$reparar_arch" = "Yes" ] ; then
 	        echo "Archivo faltante. Ejecutar el script \"instalarTP.sh\" para reparar el sistema antes de realizar la inicialización."
-	        echo "`date '+%d/%m/%Y %H:%M:%S'`-ERR-Archivo faltante. Ejecutar el script \"instalarTP.sh\" para reparar el sistema antes de realizar la inicialización.-iniciarambiente.sh-`users`" >> ./iniciarambiente.log
+	        echo "`date '+%d/%m/%Y %H:%M:%S'`-ERR-Archivo faltante. Ejecutar el script \"instalarTP.sh\" para reparar el sistema antes de realizar la inicialización.-iniciarambiente.sh-$USER" >> ./iniciarambiente.log
 	    else
 	        echo "Verificación de archivos: OK"
-	        echo "`date '+%d/%m/%Y %H:%M:%S'`-ERR-Verificación de archivos: OK.-iniciarambiente.sh-`users`" >> ./iniciarambiente.log
+	        echo "`date '+%d/%m/%Y %H:%M:%S'`-ERR-Verificación de archivos: OK.-iniciarambiente.sh-$USER" >> ./iniciarambiente.log
 	        
 	        #Verificar permisos.
 	        echo "Verificando permisos."
-	        echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Verificando permisos.-iniciarambiente.sh-`users`" >> ./iniciarambiente.log
+	        echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Verificando permisos.-iniciarambiente.sh-$USER" >> ./iniciarambiente.log
 	        
 	        if [ ! -r "$MAE_COMERCIOS" ] ; then
 	            chmod a+r "$MAE_COMERCIOS"
@@ -102,10 +114,51 @@ else
 	        fi
 			
 	        echo "Verificación de permisos: OK"
-	        echo "`date '+%d/%m/%Y %H:%M:%S'`-ERR-Verificación de permisos: OK.-iniciarambiente.sh-`users`" >> ./iniciarambiente.log
+	        echo "`date '+%d/%m/%Y %H:%M:%S'`-ERR-Verificación de permisos: OK.-iniciarambiente.sh-$USER" >> ./iniciarambiente.log
 
-	        "$EJE_PRINCIPAL"
+	        #Llamado al programa principal.
+	        clear
+	        
+	        process=../original/auxiliares/process_id.txt
+	        
+	        if [ "$1" = '--iniciarproceso' ]; then
+	            if [ -f $process ]; then
+	                echo "Sistema ya inicializado. Si se quiere volver a ejecutar, primero ejecutar este script con el parámetro \"--frenarproceso\"."
+	                echo "`date '+%d/%m/%Y %H:%M:%S'`-ERR-Sistema ya inicializado. Si se quiere volver a ejecutar, primero ejecutar este script con el parámetro \"--frenarproceso\".-iniciarambiente.sh-$USER" >> ./iniciarambiente.log
+	            else
+	                "$EJE_PRINCIPAL" &
+	                
+	                #Informamos el pid
+	                process_id="$!"
+	                echo $process_id > $process
+	                
+	                echo "Ejecutando proceso principal con process ID \"$process_id\"."
+	                echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Ejecutando proceso principal con process ID \"$process_id\".-iniciarambiente.sh-$USER" >> ./iniciarambiente.log
+	                
+	                #Iniciar proceso/Frenar proceso
+			        echo "Si desea terminar con la ejecución del sistema, ejecute este script pasando el parámetro \"--frenarproceso\"."
+			        echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Si desea terminar con la ejecución del sistema, ejecute este script pasando el parámetro \"--frenarproceso\".-iniciarambiente.sh-$USER" >> ./iniciarambiente.log
 			
+			        echo "Si desea volver a iniciar la ejecución del sistema, ejecute este script pasando el parámetro \"--iniciarproceso\"."
+			        echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Si desea terminar con la ejecución del sistema, ejecute este script pasando el parámetro \"--frenarproceso\".-iniciarambiente.sh-$USER" >> ./iniciarambiente.log
+	            fi
+            elif [ "$1" = '--frenarproceso' ]; then
+                if [ -f $process ]; then
+                    process_id=$(head -n 1 $process)
+                    
+                    kill "$process_id"
+                    rm $process
+                    
+                    echo "Proceso finalizado. Para volver a ejecutarlo, corra este script con el parámetro \"--iniciarproceso\"."
+                    echo "`date '+%d/%m/%Y %H:%M:%S'`-INF-Proceso finalizado. Para volver a ejecutarlo, corra este script con el parámetro \"--iniciarproceso\".-iniciarambiente.sh-$USER" >> ./iniciarambiente.log
+                else
+                    echo "El proceso no está en ejecución. Si desea iniciarlo, ejecute este script con el parámetro \"--iniciarproceso\"."
+                    echo "`date '+%d/%m/%Y %H:%M:%S'`-ERR-El proceso no está en ejecución. Si desea iniciarlo, ejecute este script con el parámetro \"--iniciarproceso\".-iniciarambiente.sh-$USER" >> ./iniciarambiente.log
+                fi
+            else
+                echo "Parámetro inválido. Solo se aceptan los siguientes parámetros: \"--iniciarproceso\" y \"--frenarproceso\"."
+                echo "`date '+%d/%m/%Y %H:%M:%S'`-ERR-Parámetro inválido. Solo se aceptan los siguientes parámetros: \"--iniciarproceso\" y \"--frenarproceso\".-iniciarambiente.sh-$USER" >> ./iniciarambiente.log
+            fi
 	    fi
 	fi
 fi
