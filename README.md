@@ -8,6 +8,7 @@
 #### Guía para acceder al TP:
 
 1. Acceda al repositorio de Github.
+
 1.1 Ingrese con un navegador de internet a la página https://github.com/IgnacioCarol/SisopTp
 
 #### Guía para la descarga del sistema:
@@ -88,9 +89,32 @@ Para reparar el sistema en caso de que se borre algún directorio o archivo se d
 
 #### Guía para la inicialización del sistema:
 
-#### Guía para usar iniciarproceso y frenarproceso
+Para inicializar el sistema y ponerlo en ejecución se debe correr el script iniciarambiente.sh con uno de los siguientes parámetros: "--iniciarproceso" o "--frenarproceso".
 
-Para iniciar el proceso vaya a donde este ubicado el archivo pprincipal.sh, inicialmente ubicado en la carpeta donde se descargo el programa.
-Desde ahi corra el comando ./pprincipal.sh, tambien es posible correrlo con el comando ./pprincipal.sh --iniciarproceso.
+1. Abra una terminal y navegue hasta el directorio Grupo2 (donde se descargó el programa)
 
-Para frenar el proceso dirigase al mismo directorio y corra el comando ./pprincipal.sh --frenarproceso. Y el proceso antes iniciado deberia ser terminado inmediatamente.
+1.1 Tipee "cd Grupo2"
+
+2. Moverse al directorio so7508
+
+2.1 Tipee "cd so7508"
+
+3. Ejecutar el script de inicialización del sistema con el parámetro "--iniciarproceso"
+
+3.1 Tipee ./iniciarambiente.sh "--iniciarproceso"
+
+4. Sistema en ejecución
+
+4.1 El sistema va a procesar los archivos de novedades que sean llevados manualmente al directorio de novedades (en intervalos de 1 minuto), mientras el proceso siga corriendo.
+
+5. Terminar la ejecución del sistema corriendo nuevamente el script con el parámetro "--frenarproceso"
+
+5.1 Tipee ./iniciarambiente.sh "--frenarproceso"
+
+Este proceso se puede volver a iniciar corriendo nuevamente el script con el parámetro "--iniciarproceso".
+
+#### Prueba de un ejemplo completo:
+
+Para probar el sistema por completo, desde el paquete descargado del repositorio, seguir los pasos de instalación e inicialización del ambiente.
+
+Una vez el proceso haya iniciado, llevar algun archivo de novedades (ya sea de los directorios de la catedra o propios) y, dependiendo del archivo, se procesará y los resultados quedarán en el directorio de resultados o será rechazado y movido al directorio de rechazados.
