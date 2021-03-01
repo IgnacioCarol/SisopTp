@@ -1,5 +1,6 @@
 #include "../Sem-sv/sv_sem.h"
 #include "../Sem-sv/sv_shm.h"
+#include "./utils/utils.cpp"
 
 typedef struct{
     int simios_cruzando_DI=0;
@@ -9,6 +10,7 @@ typedef struct{
     } shared_status;
 
 int main(){
+    printNames();
 	sv_sem mutex ("Mutex",1);
 	sv_sem DI("Simio_cruzando_derecha_a_izquierda",1);
 	sv_sem ID("Simio_cruzando_izquierda_a_derecha",1);

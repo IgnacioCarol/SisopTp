@@ -1,6 +1,7 @@
 #include <iostream>
 #include "../Sem-sv/sv_sem.h"
 #include "../Sem-sv/sv_shm.h"
+#include "./utils/utils.cpp"
 using namespace std;
 
 typedef struct{
@@ -11,6 +12,7 @@ typedef struct{
     } shared_status;
 
 int main(int argc, char * argv[]){
+    printNames();
 	if (argc<2) {
 	    cerr<<"Usar "<<argv[0]<<" indicando el <id del simioDI> como parámetro."<<endl;
 	    exit(2);
