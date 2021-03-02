@@ -1,5 +1,5 @@
-#include "../Sem-sv/sv_sem.h"
-#include "../Sem-sv/sv_shm.h"
+#include "./Sem-sv/sv_sem.h"
+#include "./Sem-sv/sv_shm.h"
 #include "./utils/utils.cpp"
 
 int main(){
