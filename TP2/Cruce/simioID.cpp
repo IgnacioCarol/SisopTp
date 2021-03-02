@@ -11,6 +11,11 @@ typedef struct{
     } shared_status;
 
 int main(int argc, char * argv[]){
+    cout<<"Grupo 2"<<endl<<endl;
+    cout<<"99599    MININO, ALAN NAHUEL         nminino@fi.uba.ar"<<endl;
+    cout<<"99846    TORRESETTI, LISANDRO        ltorresetti@fi.uba.ar"<<endl;
+    cout<<"100073   CAROL LUGONES, LUIS IGNACIO icarol@fi.uba.ar"<<endl<<endl;
+    
 	if (argc<2) {
 	    cerr<<"Usar "<<argv[0]<<" indicando el <id del simioID> como parámetro."<<endl;
 	    exit(2);
@@ -29,23 +34,27 @@ int main(int argc, char * argv[]){
 	cin>>rta;
 	cout<<nombreSimio<<" (pid: "<<getpid()<<") prueba ingreso a la soga... \n";
 
-	mutex.wait();
+	
 	if (status->simios_cruzando_DI > 0){
 	    /*Caso en el que hay simios cruzando de derecha a izquierda*/
+	    cout<<nombreSimio<<" (pid: "<<getpid()<<") va a esperar."<<endl;
+	    cout<<"Hay "<<status->simios_cruzando_DI<<" simio/s cruzando de derecha a izquierda."<<endl;
 	    status->simios_esperando_ID++;
-	    mutex.post();
 	    ID.wait();
 	} else {
 	    /*Caso en el que se puede cruzar*/
+	    cout<<nombreSimio<<" (pid: "<<getpid()<<") va a cruzar."<<endl;
+	    if (status->simios_cruzando_ID == 0) cout<<"Es el primer simio cruzando de izquierda a derecha."<<endl;
+	    else cout<<"Hay "<<status->simios_cruzando_ID<<" simio/s yendo en la misma dirección."<<endl;
 	    status->simios_cruzando_ID++;
-	    mutex.post();
 	}
+	
+	mutex.wait();
 	
 	/*El simio entra a la sección crítica*/
 	cout<<nombreSimio<<" (pid: "<<getpid()<<") cruzando..."<<endl;
 	cin>>rta;
 	
-	mutex.wait();
 	status->simios_cruzando_ID--;	
 	
 	if (status->simios_esperando_ID > 0){
@@ -63,7 +72,9 @@ int main(int argc, char * argv[]){
 	    }
 	}
 	
-	if (status->simios_esperando_ID == 0) cout<<nombreSimio<<" "<<" es el último simio cruzando de izquierda a derecha."<<endl;
+	if (status->simios_cruzando_ID == 0) cout<<nombreSimio<<" es el último simio cruzando de izquierda a derecha."<<endl;
+	else cout<<"Queda/n "<<status->simios_cruzando_ID<<" simio/s cruzando de izquierda a derecha."<<endl;
+	
+	cout<<nombreSimio<<" "<<" terminó de cruzar."<<endl;
     mutex.post();
-    cout<<nombreSimio<<" "<<" terminó de cruzar."<<endl;
 }
