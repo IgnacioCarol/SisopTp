@@ -10,6 +10,8 @@ int main(int argc, char * argv[]){
     sv_sem DI("Simio_cruzando_derecha_a_izquierda");
     sv_sem ID("Simio_cruzando_izquierda_a_derecha");
     sv_shm soga("Soga");
-    auto a = mutex.getKtClave();
-    cout << a<< endl;
+    mutex.del();
+    DI.del();
+    ID.del();
+    soga.del();
 }
