@@ -4,13 +4,6 @@
 #include "./utils/utils.cpp"
 using namespace std;
 
-typedef struct{
-    int simios_cruzando_DI=0;
-    int simios_cruzando_ID=0;
-    int simios_esperando_DI=0;
-    int simios_esperando_ID=0;
-    } shared_status;
-
 int main(int argc, char * argv[]){
     printNames();
 	if (argc<2) {
@@ -19,7 +12,6 @@ int main(int argc, char * argv[]){
 	}
 	
 	string nombreSimio="SimioDI_"+string(argv[1]);
-	string rta;
 	sv_sem mutex("Mutex");
 	sv_sem DI("Simio_cruzando_derecha_a_izquierda");
 	sv_sem ID("Simio_cruzando_izquierda_a_derecha");
@@ -27,8 +19,8 @@ int main(int argc, char * argv[]){
 	sv_shm soga("Soga");
 	status= reinterpret_cast<shared_status *> (soga.map(sizeof (shared_status)));
 	
-	cout<<nombreSimio<<" (pid: "<<getpid()<<") a punto de cruzar..."<<endl;
-	cin>>rta;
+	cout<<nombreSimio<<" (pid: "<<getpid()<<") a punto de ingresar a la soga..."<<endl;
+	cin.ignore();
 	cout<<nombreSimio<<" (pid: "<<getpid()<<") prueba ingreso a la soga... \n";
 	
 	if (status->simios_cruzando_ID > 0){
@@ -49,7 +41,7 @@ int main(int argc, char * argv[]){
 	
 	/*El simio entra a la sección crítica*/
 	cout<<nombreSimio<<" (pid: "<<getpid()<<") cruzando..."<<endl;
-	cin>>rta;
+	cin.ignore();
 	
 	status->simios_cruzando_DI--;
 	

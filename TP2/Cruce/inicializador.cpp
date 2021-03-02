@@ -2,13 +2,6 @@
 #include "../Sem-sv/sv_shm.h"
 #include "./utils/utils.cpp"
 
-typedef struct{
-    int simios_cruzando_DI=0;
-    int simios_cruzando_ID=0;
-    int simios_esperando_DI=0;
-    int simios_esperando_ID=0;
-    } shared_status;
-
 int main(){
     printNames();
 	sv_sem mutex ("Mutex",1);
