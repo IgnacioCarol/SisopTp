@@ -30,31 +30,34 @@ int main(int argc, char * argv[]){
 	cout<<nombreSimio<<" (pid: "<<getpid()<<") a punto de cruzar..."<<endl;
 	cin>>rta;
 	cout<<nombreSimio<<" (pid: "<<getpid()<<") prueba ingreso a la soga... \n";
-
-	mutex.wait();
+	
 	if (status->simios_cruzando_ID > 0){
 	    /*Caso en el que hay simios cruzando de izquierda a derecha*/
+	    cout<<nombreSimio<<" (pid: "<<getpid()<<") va a esperar."<<endl;
+	    cout<<"Hay "<<status->simios_cruzando_ID<<" simio/s cruzando de izquierda a derecha."<<endl;
 	    status->simios_esperando_DI++;
-	    mutex.post();
 	    DI.wait();
 	} else {
 	    /*Caso en el que se puede cruzar*/
+	    cout<<nombreSimio<<" (pid: "<<getpid()<<") va a cruzar."<<endl;
+	    if (status->simios_cruzando_DI == 0) cout<<"Es el primer simio cruzando de derecha a izquierda."<<endl;
+	    else cout<<"Hay "<<status->simios_cruzando_DI<<" simio/s yendo en la misma dirección."<<endl;
 	    status->simios_cruzando_DI++;
-	    mutex.post();
 	}
+	
+	mutex.wait();	
 	
 	/*El simio entra a la sección crítica*/
 	cout<<nombreSimio<<" (pid: "<<getpid()<<") cruzando..."<<endl;
 	cin>>rta;
 	
-	mutex.wait();
 	status->simios_cruzando_DI--;
 	
 	if (status->simios_esperando_DI > 0){
 	    /*Caso en el que hay más simios cruzando de derecha a izquierda*/
 	    status->simios_cruzando_DI++;
 	    status->simios_esperando_DI--;
-	    ID.post();
+	    DI.post();
 	} else if (status->simios_esperando_ID > 0 and status->simios_cruzando_DI == 0) {
 	    /*Caso en el que terminaron de cruzar los simios*/
 	    int simios_que_empiezan_a_cruzar=status->simios_esperando_ID;
@@ -65,7 +68,9 @@ int main(int argc, char * argv[]){
 	    }
 	}
 	
-	if (status->simios_esperando_DI == 0) cout<<nombreSimio<<" "<<" es el último simio cruzando de derecha a izquierda."<<endl;
-    mutex.post();
-    cout<<nombreSimio<<" "<<" terminó de cruzar."<<endl;
+	if (status->simios_cruzando_DI == 0) cout<<nombreSimio<<" es el último simio cruzando de derecha a izquierda."<<endl;
+	else cout<<"Queda/n "<<status->simios_cruzando_DI<<" simio/s cruzando de derecha a izquierda."<<endl;
+	
+	cout<<nombreSimio<<" "<<" terminó de cruzar."<<endl;
+    mutex.post();   
 }

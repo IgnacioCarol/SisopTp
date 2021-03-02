@@ -1,3 +1,6 @@
 void printNames() {
-    cout<<"Tema 2"<<endl<<"Alumno: Minino, Nahuel - Padron: 99599"<<endl<<"Alumno: Torresetti, Lisando - Padron: 99846"<<endl<<"Alumno: Carol Lugones, Ignacio - Padron: 100073"<<endl<<"";
+    cout<<"Grupo 2"<<endl<<endl;
+    cout<<"99599    MININO, ALAN NAHUEL         nminino@fi.uba.ar"<<endl;
+    cout<<"99846    TORRESETTI, LISANDRO        ltorresetti@fi.uba.ar"<<endl;
+    cout<<"100073   CAROL LUGONES, LUIS IGNACIO icarol@fi.uba.ar"<<endl<<endl;
 }
